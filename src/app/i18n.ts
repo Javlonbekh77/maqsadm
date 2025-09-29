@@ -28,6 +28,10 @@ i18n
       order: ['cookie', 'localStorage', 'navigator'],
       caches: ['cookie', 'localStorage'],
     },
+    // Prevent loading on the server
+    react: {
+      useSuspense: false,
+    },
   });
 
 export default i18n;

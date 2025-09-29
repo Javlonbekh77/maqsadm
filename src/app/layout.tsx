@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
+import { useEffect, useState } from 'react';
 
 // Since we're using 'use client', we can't use the `metadata` export.
 // We'll set the title dynamically in the component.
@@ -16,6 +17,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <I18nextProvider i18n={i18n}>
       <html lang={i18n.language} suppressHydrationWarning>
@@ -30,7 +37,7 @@ export default function RootLayout({
           />
         </head>
         <body className={cn('font-body antialiased min-h-screen bg-background font-sans')}>
-          {children}
+          {isClient ? children : null}
           <Toaster />
         </body>
       </html>
