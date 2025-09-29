@@ -16,10 +16,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { PlusCircle, Coins } from 'lucide-react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 export default function CreateTaskDialog() {
-  const { t } = useTranslation();
+  const t = useTranslations('createTaskDialog');
+  const tActions = useTranslations('actions');
   const [open, setOpen] = useState(false);
 
   // In a real app, this would be a form with state management (e.g. react-hook-form)
@@ -35,40 +36,40 @@ export default function CreateTaskDialog() {
       <DialogTrigger asChild>
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />
-          {t('createTaskDialog.addTaskButton')}
+          {t('addTaskButton')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('createTaskDialog.title')}</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>
-            {t('createTaskDialog.description')}
+            {t('description')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="title" className="text-right">
-              {t('createTaskDialog.titleLabel')}
+              {t('titleLabel')}
             </Label>
-            <Input id="title" placeholder={t('createTaskDialog.titlePlaceholder')} className="col-span-3" />
+            <Input id="title" placeholder={t('titlePlaceholder')} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-start gap-4">
             <Label htmlFor="description" className="text-right pt-2">
-              {t('createTaskDialog.descriptionLabel')}
+              {t('descriptionLabel')}
             </Label>
-            <Textarea id="description" placeholder={t('createTaskDialog.descriptionPlaceholder')} className="col-span-3" />
+            <Textarea id="description" placeholder={t('descriptionPlaceholder')} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="coins" className="text-right flex items-center justify-end gap-1">
                 <Coins className="h-4 w-4 text-amber-500" />
-                {t('createTaskDialog.coinsLabel')}
+                {t('coinsLabel')}
             </Label>
-            <Input id="coins" type="number" placeholder={t('createTaskDialog.coinsPlaceholder')} className="col-span-3" />
+            <Input id="coins" type="number" placeholder={t('coinsPlaceholder')} className="col-span-3" />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>{t('actions.cancel')}</Button>
-          <Button type="submit" onClick={handleSubmit}>{t('createTaskDialog.createTaskButton')}</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>{tActions('cancel')}</Button>
+          <Button type="submit" onClick={handleSubmit}>{t('createTaskButton')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

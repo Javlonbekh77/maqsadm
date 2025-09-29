@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,13 +12,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Languages } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function LanguageSwitcher() {
-  const { i18n, t } = useTranslation();
+  const t = useTranslations('languageSwitcher');
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng);
-    document.documentElement.lang = lng;
+  const changeLanguage = (nextLocale: string) => {
+    router.replace(pathname, {locale: nextLocale});
   };
 
   return (
@@ -27,15 +30,15 @@ export default function LanguageSwitcher() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
           <Languages className="h-5 w-5" />
-          <span className="sr-only">{t('languageSwitcher.label')}</span>
+          <span className="sr-only">{t('label')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{t('languageSwitcher.label')}</DropdownMenuLabel>
+        <DropdownMenuLabel>{t('label')}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={i18n.language} onValueChange={changeLanguage}>
-          <DropdownMenuRadioItem value="uz">{t('languageSwitcher.uz')}</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="en">{t('languageSwitcher.en')}</DropdownMenuRadioItem>
+        <DropdownMenuRadioGroup value={locale} onValueChange={changeLanguage}>
+          <DropdownMenuRadioItem value="uz">{t('uz')}</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="en">{t('en')}</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

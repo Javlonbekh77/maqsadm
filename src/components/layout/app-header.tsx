@@ -18,18 +18,18 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { getUserById } from '@/lib/data';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import LanguageSwitcher from '../language-switcher';
 
 const pageTitles: { [key: string]: string } = {
-  '/dashboard': 'nav.dashboard',
-  '/groups': 'nav.groups',
-  '/leaderboard': 'nav.leaderboard',
-  '/profile': 'nav.profile',
+  'dashboard': 'nav.dashboard',
+  'groups': 'nav.groups',
+  'leaderboard': 'nav.leaderboard',
+  'profile': 'nav.profile',
 };
 
 export default function AppHeader() {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const isMobile = useIsMobile();
   const pathname = usePathname();
   // In a real app, this would come from an auth context
@@ -37,9 +37,18 @@ export default function AppHeader() {
   const currentUser = getUserById(currentUserId); 
   
   const getPageTitle = () => {
-    if (pathname.startsWith('/profile/')) return t('nav.profile');
-    if (pathname.startsWith('/groups/')) return t('nav.groups');
-    return t(pageTitles[pathname] || 'MaqsadM');
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const pageKey = pathSegments[1];
+
+    if (pageKey && pageTitles[pageKey]) {
+      return t(pageTitles[pageKey]);
+    }
+    
+    // Fallbacks for detail pages
+    if (pathname.includes('/profile/')) return t('nav.profile');
+    if (pathname.includes('/groups/')) return t('nav.groups');
+
+    return t('nav.dashboard'); // Default title
   }
 
   return (

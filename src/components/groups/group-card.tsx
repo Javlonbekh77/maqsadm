@@ -9,10 +9,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Group } from "@/lib/types";
 import { getUserById } from "@/lib/data";
 import { ArrowRight, Users } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export default function GroupCard({ group }: { group: Group }) {
-  const { t } = useTranslation();
+  const t = useTranslations('groupCard');
   // Note: In a full Firestore implementation, this would also be an async call
   const members = group.members.map(id => getUserById(id)).filter(Boolean);
 
@@ -45,12 +45,12 @@ export default function GroupCard({ group }: { group: Group }) {
               </Avatar>
             ))}
           </div>
-          <span className="text-xs font-medium text-muted-foreground">{t('groupCard.members', { count: group.members.length })}</span>
+          <span className="text-xs font-medium text-muted-foreground">{t('members', { count: group.members.length })}</span>
         </div>
         <Button variant="outline" size="sm" asChild>
           {/* We now use the original ID for the link, not the Firebase ID */}
           <Link href={`/groups/${group.id}`}>
-            {t('groupCard.view')}
+            {t('view')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>

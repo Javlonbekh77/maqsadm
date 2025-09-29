@@ -8,27 +8,26 @@ import { CheckCircle, Users, Trophy } from 'lucide-react';
 import Logo from '@/components/logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { useTranslation } from 'react-i18next';
-import i18n from './i18n'; // Use the client-side i18n
+import { useTranslations } from 'next-intl';
 
 export default function LandingPage() {
-  const { t } = useTranslation();
+  const t = useTranslations('landing');
 
   const features = [
     {
       icon: <Users className="h-8 w-8 text-primary" />,
-      title: t('landing.feature1Title'),
-      description: t('landing.feature1Desc'),
+      title: t('feature1Title'),
+      description: t('feature1Desc'),
     },
     {
       icon: <CheckCircle className="h-8 w-8 text-primary" />,
-      title: t('landing.feature2Title'),
-      description: t('landing.feature2Desc'),
+      title: t('feature2Title'),
+      description: t('feature2Desc'),
     },
     {
       icon: <Trophy className="h-8 w-8 text-primary" />,
-      title: t('landing.feature3Title'),
-      description: t('landing.feature3Desc'),
+      title: t('feature3Title'),
+      description: t('feature3Desc'),
     },
   ];
 
@@ -43,12 +42,12 @@ export default function LandingPage() {
         <nav className="ml-auto flex gap-4 sm:gap-6">
           <Button variant="ghost" asChild>
             <Link href="/dashboard" prefetch={false}>
-              {t('landing.login')}
+              {t('login')}
             </Link>
           </Button>
           <Button asChild>
             <Link href="/dashboard" prefetch={false}>
-              {t('landing.signUp')}
+              {t('signUp')}
             </Link>
           </Button>
         </nav>
@@ -58,15 +57,15 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6 text-center">
             <div className="flex flex-col items-center space-y-4">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl font-headline bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-                {t('landing.heroTitle')}
+                {t('heroTitle')}
               </h1>
               <p className="mx-auto max-w-[700px] text-foreground/80 md:text-xl">
-                {t('landing.heroSubtitle')}
+                {t('heroSubtitle')}
               </p>
               <div className="space-x-4">
                 <Button size="lg" asChild>
                   <Link href="/dashboard" prefetch={false}>
-                    {t('landing.getStarted')}
+                    {t('getStarted')}
                   </Link>
                 </Button>
               </div>
@@ -111,13 +110,13 @@ export default function LandingPage() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-background">
-        <p className="text-xs text-foreground/60">{t('landing.footerRights')}</p>
+        <p className="text-xs text-foreground/60">{t('footerRights')}</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link href="#" className="text-xs hover:underline underline-offset-4 text-foreground/80" prefetch={false}>
-            {t('landing.footerTerms')}
+            {t('footerTerms')}
           </Link>
           <Link href="#" className="text-xs hover:underline underline-offset-4 text-foreground/80" prefetch={false}>
-            {t('landing.footerPrivacy')}
+            {t('footerPrivacy')}
           </Link>
         </nav>
       </footer>

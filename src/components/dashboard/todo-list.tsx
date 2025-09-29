@@ -9,10 +9,10 @@ import { Check, Coins, Info } from 'lucide-react';
 import TaskCompletionDialog from './task-completion-dialog';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 export default function TodoList({ initialTasks }: { initialTasks: UserTask[] }) {
-  const { t } = useTranslation();
+  const t = useTranslations('todoList');
   const [tasks, setTasks] = useState(initialTasks);
   const [selectedTask, setSelectedTask] = useState<UserTask | null>(null);
 
@@ -34,8 +34,8 @@ export default function TodoList({ initialTasks }: { initialTasks: UserTask[] })
     <>
       <Card>
         <CardHeader>
-          <CardTitle>{t('todoList.title')}</CardTitle>
-          <CardDescription>{t('todoList.description')}</CardDescription>
+          <CardTitle>{t('title')}</CardTitle>
+          <CardDescription>{t('description')}</CardDescription>
         </CardHeader>
         <CardContent>
           {activeTasks.length > 0 ? (
@@ -65,7 +65,7 @@ export default function TodoList({ initialTasks }: { initialTasks: UserTask[] })
                       </div>
                       <Button size="sm" onClick={() => handleCompleteClick(task)}>
                         <Check className="w-4 h-4 mr-2" />
-                        {t('todoList.completeButton')}
+                        {t('completeButton')}
                       </Button>
                     </div>
                   </motion.li>
@@ -75,14 +75,14 @@ export default function TodoList({ initialTasks }: { initialTasks: UserTask[] })
           ) : (
             <div className="text-center py-8">
               <Check className="mx-auto h-12 w-12 text-green-500" />
-              <h3 className="mt-2 text-lg font-medium">{t('todoList.allTasksCompleted')}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{t('todoList.allTasksCompletedSub')}</p>
+              <h3 className="mt-2 text-lg font-medium">{t('allTasksCompleted')}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{t('allTasksCompletedSub')}</p>
             </div>
           )}
 
           {completedTasks.length > 0 && (
             <div className="mt-8">
-              <h3 className="text-lg font-semibold mb-4">{t('todoList.completedTasksTitle')}</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('completedTasksTitle')}</h3>
               <ul className="space-y-3">
                 {completedTasks.map((task) => (
                    <li key={task.id} className="flex items-center p-3 rounded-lg bg-secondary/30 text-muted-foreground">

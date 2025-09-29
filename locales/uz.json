@@ -36,7 +36,7 @@
         "footerPrivacy": "Maxfiylik siyosati"
     },
     "dashboard": {
-        "welcome": "Xush kelibsiz, {{name}}!",
+        "welcome": "Xush kelibsiz, {name}!",
         "welcomeSubtitle": "Bugungi rejalaringiz bilan tanishing. Keling, bugunni samarali o'tkazaylik.",
         "userNotFound": "Foydalanuvchi topilmadi."
     },
@@ -50,11 +50,11 @@
     },
     "taskCompletionDialog": {
         "title": "Vazifa bajarilishini tasdiqlang",
-        "description": "Siz \"{{taskTitle}}\" vazifasini bajarilgan deb belgilamoqchisiz.",
+        "description": "\"{taskTitle}\" vazifasini bajarilgan deb belgilamoqchisiz.",
         "integrityTitle": "Halollik haqida qisqacha eslatma:",
         "integrityDescription": "Tasdiqlash orqali siz ushbu vazifani imkon qadar yaxshi bajarganingizga rozilik bildirasiz. Halollik shaxsiy o'sish va jamiyat ishonchining kalitidir.",
         "earn": "Sizga taqdim etiladi",
-        "coins": "{{count}} tanga",
+        "coins": "{count} tanga",
         "confirmButton": "Ha, men uni bajardim!"
     },
     "groups": {
@@ -64,8 +64,7 @@
         "createGroup": "Guruh yaratish"
     },
     "groupCard": {
-        "members_one": "{{count}} a'zo",
-        "members_other": "{{count}} a'zo",
+        "members": "{count, plural, one {# a'zo} other {# a'zo}}",
         "view": "Ko'rish"
     },
     "groupDetail": {
@@ -74,7 +73,7 @@
         "tasksDescription": "Guruh a'zolari uchun mavjud vazifalar.",
         "taskColumn": "Vazifa",
         "rewardColumn": "Mukofot",
-        "membersTitle": "A'zolar ({{count}})",
+        "membersTitle": "A'zolar ({count})",
         "adminBadge": "Admin"
     },
     "createTaskDialog": {
@@ -115,7 +114,8 @@
             "title": "Profil yangilandi",
             "description": "Sizning maqsadlaringiz va odatlaringiz muvaffaqiyatli saqlandi."
         },
-        "goalMates": "Maqsaddoshlar"
+        "goalMates": "Maqsaddoshlar",
+        "goalMatesDescription": "Guruhlaringizdagi jamoa a'zolari."
     },
     "languageSwitcher": {
         "label": "Til",

@@ -5,12 +5,12 @@ import AppLayout from "@/components/layout/app-layout";
 import TodoList from "@/components/dashboard/todo-list";
 import { getUserById, getUserTasks } from "@/lib/data";
 import type { UserTask } from "@/lib/types";
-import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 export const dynamic = 'force-dynamic'
 
 export default function DashboardPage() {
-  const { t } = useTranslation();
+  const t = useTranslations('dashboard');
   // In a real app, userId would come from authentication
   const userId = 'user-1';
   const user = getUserById(userId);
@@ -20,7 +20,7 @@ export default function DashboardPage() {
     return (
       <AppLayout>
         <div className="flex items-center justify-center h-full">
-          <p>{t('dashboard.userNotFound')}</p>
+          <p>{t('userNotFound')}</p>
         </div>
       </AppLayout>
     );
@@ -30,8 +30,8 @@ export default function DashboardPage() {
     <AppLayout>
       <div className="grid gap-8">
         <div>
-          <h1 className="text-3xl font-bold font-headline">{t('dashboard.welcome', { name: user.fullName.split(' ')[0] })}</h1>
-          <p className="text-muted-foreground">{t('dashboard.welcomeSubtitle')}</p>
+          <h1 className="text-3xl font-bold font-headline">{t('welcome', { name: user.fullName.split(' ')[0] })}</h1>
+          <p className="text-muted-foreground">{t('welcomeSubtitle')}</p>
         </div>
 
         <div className="grid gap-8 items-start">

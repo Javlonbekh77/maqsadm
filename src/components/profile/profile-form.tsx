@@ -19,7 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { User } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Separator } from '../ui/separator';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 const profileFormSchema = z.object({
   goals: z
@@ -35,7 +35,7 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfileForm({ user }: { user: User }) {
-  const { t } = useTranslation();
+  const t = useTranslations('profile');
   const { toast } = useToast();
 
   const form = useForm<ProfileFormValues>({
@@ -51,8 +51,8 @@ export default function ProfileForm({ user }: { user: User }) {
     // In a real app, this would be an API call
     console.log('Updating profile:', data);
     toast({
-      title: t('profile.toast.title'),
-      description: t('profile.toast.description'),
+      title: t('toast.title'),
+      description: t('toast.description'),
     });
   }
 
@@ -65,13 +65,13 @@ export default function ProfileForm({ user }: { user: User }) {
           name="goals"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">{t('profile.myGoals')}</FormLabel>
+              <FormLabel className="text-lg">{t('myGoals')}</FormLabel>
               <FormDescription>
-                {t('profile.myGoalsDescription')}
+                {t('myGoalsDescription')}
               </FormDescription>
               <FormControl>
                 <Textarea
-                  placeholder={t('profile.myGoalsPlaceholder')}
+                  placeholder={t('myGoalsPlaceholder')}
                   className="resize-y min-h-[100px]"
                   {...field}
                 />
@@ -85,13 +85,13 @@ export default function ProfileForm({ user }: { user: User }) {
           name="habits"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">{t('profile.myHabits')}</FormLabel>
+              <FormLabel className="text-lg">{t('myHabits')}</FormLabel>
               <FormDescription>
-                {t('profile.myHabitsDescription')}
+                {t('myHabitsDescription')}
               </FormDescription>
               <FormControl>
                 <Textarea
-                  placeholder={t('profile.myHabitsPlaceholder')}
+                  placeholder={t('myHabitsPlaceholder')}
                   className="resize-y min-h-[100px]"
                   {...field}
                 />
@@ -101,7 +101,7 @@ export default function ProfileForm({ user }: { user: User }) {
           )}
         />
         <div className="flex justify-end">
-            <Button type="submit">{t('profile.updateButton')}</Button>
+            <Button type="submit">{t('updateButton')}</Button>
         </div>
       </form>
     </Form>

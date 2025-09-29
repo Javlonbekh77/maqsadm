@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import type { Task } from '@/lib/types';
 import { Coins } from 'lucide-react';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { ScrollArea } from '../ui/scroll-area';
 
 interface JoinGroupDialogProps {
@@ -33,7 +33,7 @@ export default function JoinGroupDialog({
   groupName,
   tasks,
 }: JoinGroupDialogProps) {
-  const { t } = useTranslation();
+  const t = useTranslations('actions');
   const [selectedTaskIds, setSelectedTaskIds] = useState<string[]>([]);
 
   const handleTaskSelection = (taskId: string) => {
@@ -91,7 +91,7 @@ export default function JoinGroupDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            {t('actions.cancel')}
+            {t('cancel')}
           </Button>
           <Button onClick={handleConfirm}>
             Join Group & Start Tasks

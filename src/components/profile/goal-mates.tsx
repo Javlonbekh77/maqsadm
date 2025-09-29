@@ -3,16 +3,16 @@
 
 import { getGoalMates } from "@/lib/data";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { useTranslation } from "react-i18next";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 interface GoalMatesProps {
     userId: string;
 }
 
 export default function GoalMates({ userId }: GoalMatesProps) {
-    const { t } = useTranslation();
+    const t = useTranslations('profile');
     const goalMates = getGoalMates(userId);
 
     if (goalMates.length === 0) {
@@ -22,9 +22,9 @@ export default function GoalMates({ userId }: GoalMatesProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>{t('profile.goalMates')}</CardTitle>
+                <CardTitle>{t('goalMates')}</CardTitle>
                 <CardDescription>
-                    {t('profile.goalMatesDescription', { count: goalMates.length })}
+                    {t('goalMatesDescription', { count: goalMates.length })}
                 </CardDescription>
             </CardHeader>
             <CardContent>

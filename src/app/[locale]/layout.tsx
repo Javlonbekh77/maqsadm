@@ -1,42 +1,31 @@
-
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { notFound } from 'next/navigation';
 
 import '../globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
-import './i18n'; // Import the i18n configuration for client components
-
 
 export const metadata: Metadata = {
   title: "MaqsadM",
   description: "Achieve your goals together.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
   params: {locale}
 }: Readonly<{
   children: React.ReactNode;
   params: {locale: string};
 }>) {
-  let messages;
-  try {
-    messages = await getMessages();
-  } catch (error) {
-    notFound();
-  }
-  const currentLocale = await getLocale();
-  if (locale !== currentLocale) {
-    notFound();
-  }
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = useMessages();
 
   return (
-    <html lang={currentLocale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
        <body className={cn('font-body antialiased min-h-screen bg-background font-sans')}>
-        <NextIntlClientProvider locale={currentLocale} messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
           <Toaster />
         </NextIntlClientProvider>

@@ -11,14 +11,14 @@ import { Coins, Upload, Briefcase } from "lucide-react";
 import ProfileForm from "@/components/profile/profile-form";
 import HabitTracker from '@/components/profile/habit-tracker';
 import type { User } from "@/lib/types";
-import { useTranslation } from "react-i18next";
 import { Separator } from '@/components/ui/separator';
 import GoBackButton from '@/components/go-back-button';
 import GoalMates from '@/components/profile/goal-mates';
+import { useTranslations } from 'next-intl';
 
 
 export default function ProfilePage() {
-  const { t } = useTranslation();
+  const t = useTranslations('profile');
   const params = useParams();
   const userId = params.id as string;
   // In a real app, this would come from an auth context
@@ -36,7 +36,7 @@ export default function ProfilePage() {
       <div className="space-y-8">
         <GoBackButton />
         <div>
-          <h1 className="text-3xl font-bold font-headline">{isCurrentUser ? t('profile.title') : user.fullName}</h1>
+          <h1 className="text-3xl font-bold font-headline">{isCurrentUser ? t('title') : user.fullName}</h1>
           {!isCurrentUser && <p className="text-muted-foreground">{user.occupation}</p>}
         </div>
 
@@ -63,7 +63,7 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-2 mt-2">
                         <Coins className="h-6 w-6 text-amber-500" />
                         <span className="text-2xl font-semibold">{user.coins}</span>
-                        <span className="text-muted-foreground">{t('profile.coinsEarned')}</span>
+                        <span className="text-muted-foreground">{t('coinsEarned')}</span>
                     </div>
                 </div>
             </div>
@@ -76,11 +76,11 @@ export default function ProfilePage() {
                  <Separator className="my-6" />
                   <div className="space-y-6">
                       <div>
-                          <h3 className="text-lg font-semibold">{t('profile.myGoals')}</h3>
+                          <h3 className="text-lg font-semibold">{t('myGoals')}</h3>
                           <p className="mt-1 text-muted-foreground">{user.goals}</p>
                       </div>
                        <div>
-                          <h3 className="text-lg font-semibold">{t('profile.myHabits')}</h3>
+                          <h3 className="text-lg font-semibold">{t('myHabits')}</h3>
                           <p className="mt-1 text-muted-foreground">{user.habits}</p>
                       </div>
                   </div>

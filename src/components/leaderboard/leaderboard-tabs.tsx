@@ -17,7 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Coins, Crown, Medal, Trophy } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 const RankIcon = ({ rank }: { rank: number }) => {
@@ -28,7 +28,7 @@ const RankIcon = ({ rank }: { rank: number }) => {
 };
 
 export default function LeaderboardTabs() {
-  const { t } = useTranslation();
+  const t = useTranslations('leaderboard');
   const topUsers = getTopUsers();
   const topGroups = getTopGroups();
 
@@ -36,10 +36,10 @@ export default function LeaderboardTabs() {
     <Tabs defaultValue="users">
       <TabsList className="grid w-full grid-cols-2 md:w-96">
         <TabsTrigger value="users">
-          <Trophy className="mr-2 h-4 w-4" /> {t('leaderboard.topUsers')}
+          <Trophy className="mr-2 h-4 w-4" /> {t('topUsers')}
         </TabsTrigger>
         <TabsTrigger value="groups">
-          <Crown className="mr-2 h-4 w-4" /> {t('leaderboard.topGroups')}
+          <Crown className="mr-2 h-4 w-4" /> {t('topGroups')}
         </TabsTrigger>
       </TabsList>
       <TabsContent value="users">
@@ -48,9 +48,9 @@ export default function LeaderboardTabs() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-16 text-center">{t('leaderboard.rank')}</TableHead>
-                  <TableHead>{t('leaderboard.user')}</TableHead>
-                  <TableHead className="text-right">{t('leaderboard.coins')}</TableHead>
+                  <TableHead className="w-16 text-center">{t('rank')}</TableHead>
+                  <TableHead>{t('user')}</TableHead>
+                  <TableHead className="text-right">{t('coins')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -89,9 +89,9 @@ export default function LeaderboardTabs() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-16 text-center">{t('leaderboard.rank')}</TableHead>
-                  <TableHead>{t('leaderboard.group')}</TableHead>
-                  <TableHead className="text-right">{t('leaderboard.totalCoins')}</TableHead>
+                  <TableHead className="w-16 text-center">{t('rank')}</TableHead>
+                  <TableHead>{t('group')}</TableHead>
+                  <TableHead className="text-right">{t('totalCoins')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

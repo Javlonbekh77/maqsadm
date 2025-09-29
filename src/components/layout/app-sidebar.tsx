@@ -24,22 +24,23 @@ import {
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { getUserById } from '@/lib/data';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 const currentUserId = 'user-1';
 
-const navItems = [
-  { href: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
-  { href: '/groups', labelKey: 'nav.groups', icon: Users },
-  { href: '/leaderboard', labelKey: 'nav.leaderboard', icon: Trophy },
-  { href: `/profile/${currentUserId}`, labelKey: 'nav.profile', icon: UserCircle },
-];
-
 export default function AppSidebar() {
-  const { t } = useTranslation();
+  const t = useTranslations('nav');
+  const tHeader = useTranslations('header');
   const pathname = usePathname();
   const { state } = useSidebar();
   const currentUser = getUserById(currentUserId);
+  
+  const navItems = [
+    { href: '/dashboard', labelKey: 'dashboard', icon: LayoutDashboard },
+    { href: '/groups', labelKey: 'groups', icon: Users },
+    { href: '/leaderboard', labelKey: 'leaderboard', icon: Trophy },
+    { href: `/profile/${currentUserId}`, labelKey: 'profile', icon: UserCircle },
+  ];
 
   return (
     <Sidebar>
@@ -51,7 +52,7 @@ export default function AppSidebar() {
           <SidebarMenuItem key={item.href}>
             <Link href={item.href}>
               <SidebarMenuButton
-                isActive={pathname.startsWith(item.href)}
+                isActive={pathname.includes(item.href)}
                 tooltip={t(item.labelKey)}
               >
                 <item.icon className="h-5 w-5" />
@@ -74,7 +75,7 @@ export default function AppSidebar() {
           </Avatar>
           <div className="flex-1 overflow-hidden">
             <p className="truncate font-semibold">{currentUser?.fullName}</p>
-            <p className="truncate text-xs text-muted-foreground">{t('header.logout')}</p>
+            <p className="truncate text-xs text-muted-foreground">{tHeader('logout')}</p>
           </div>
           <button>
             <LogOut className="h-5 w-5 text-muted-foreground hover:text-foreground" />

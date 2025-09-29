@@ -36,7 +36,7 @@
         "footerPrivacy": "Privacy"
     },
     "dashboard": {
-        "welcome": "Welcome back, {{name}}!",
+        "welcome": "Welcome back, {name}!",
         "welcomeSubtitle": "Here's what's on your plate for today. Let's make it a productive one.",
         "userNotFound": "User not found."
     },
@@ -50,11 +50,11 @@
     },
     "taskCompletionDialog": {
         "title": "Confirm Task Completion",
-        "description": "You are about to mark the task \"{{taskTitle}}\" as complete.",
+        "description": "You are about to mark the task \"{taskTitle}\" as complete.",
         "integrityTitle": "A quick reminder on integrity:",
         "integrityDescription": "By confirming, you agree that you have completed this task to the best of your ability. Honesty is key to personal growth and community trust.",
         "earn": "You will earn",
-        "coins": "{{count}} coins",
+        "coins": "{count} coins",
         "confirmButton": "Yes, I've completed it!"
     },
     "groups": {
@@ -64,8 +64,7 @@
         "createGroup": "Create Group"
     },
     "groupCard": {
-        "members_one": "{{count}} member",
-        "members_other": "{{count}} members",
+        "members": "{count, plural, one {# member} other {# members}}",
         "view": "View"
     },
     "groupDetail": {
@@ -74,7 +73,7 @@
         "tasksDescription": "Available tasks for group members.",
         "taskColumn": "Task",
         "rewardColumn": "Reward",
-        "membersTitle": "Members ({{count}})",
+        "membersTitle": "Members ({count})",
         "adminBadge": "Admin"
     },
     "createTaskDialog": {
@@ -115,7 +114,8 @@
             "title": "Profile Updated",
             "description": "Your goals and habits have been saved successfully."
         },
-        "goalMates": "Goal Mates"
+        "goalMates": "Goal Mates",
+        "goalMatesDescription": "Teammates from your groups."
     },
     "languageSwitcher": {
         "label": "Language",
