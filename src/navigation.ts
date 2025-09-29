@@ -21,5 +21,5 @@ export const pathnames = {
   '/groups/[id]': '/groups/[id]',
 };
  
-export const {Link, redirect, usePathname, useRouter, getPathname} =
+export const {Link, redirect, usePathname, useRouter} =
   createLocalizedPathnamesNavigation({locales, pathnames});
