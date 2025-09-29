@@ -1,5 +1,5 @@
 
-import type { User, Group, Task, TaskHistory } from './types';
+import type { User, Group, Task, TaskHistory, WeeklyMeeting } from './types';
 import { PlaceHolderImages } from './placeholder-images';
 import { subDays, format } from 'date-fns';
 import { db } from './firebase';
@@ -172,12 +172,21 @@ let initialTasks: Task[] = [
   }
 ];
 
+let initialMeetings: WeeklyMeeting[] = [
+  { id: 'meet-1', groupId: 'group-1', title: 'Weekly Sync & Motivation', day: 'Mondays', time: '8:00 AM', url: 'https://meet.google.com' },
+  { id: 'meet-2', groupId: 'group-2', title: 'Book Discussion: Dune Ch. 1-5', day: 'Wednesdays', time: '7:00 PM', url: 'https://meet.google.com' },
+  { id: 'meet-3', groupId: 'group-3', title: 'Code Review & Pairing Session', day: 'Thursdays', time: '4:00 PM', url: 'https://meet.google.com' },
+  { id: 'meet-4', groupId: 'group-4', title: 'Workout Plan Review', day: 'Sundays', time: '10:00 AM', url: 'https://meet.google.com' },
+];
+
 
 // --- STATIC DATA FUNCTIONS (to be replaced) ---
 
 let users: User[] = initialUsers;
 let groups: Group[] = initialGroups;
 let tasks: Task[] = initialTasks;
+let meetings: WeeklyMeeting[] = initialMeetings;
+
 
 export const getGroups = async (): Promise<Group[]> => {
   // This is now a mock async function
@@ -186,6 +195,7 @@ export const getGroups = async (): Promise<Group[]> => {
 
 export const getGroupById = (id: string) => groups.find((g) => g.id === id);
 export const getTasksByGroupId = (groupId: string) => tasks.filter((t) => t.groupId === groupId);
+export const getMeetingsByGroupId = (groupId: string) => meetings.filter((m) => m.groupId === groupId);
 export const getUsers = () => users;
 export const getUserById = (id: string) => users.find((u) => u.id === id);
 export const getTopUsers = () => [...users].sort((a, b) => b.coins - a.coins).slice(0, 10);

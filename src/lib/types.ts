@@ -23,6 +23,15 @@ export type User = {
   taskHistory: TaskHistory[];
 };
 
+export type WeeklyMeeting = {
+  id: string;
+  groupId: string;
+  title: string;
+  day: string;
+  time: string;
+  url: string;
+}
+
 export type Group = {
   firebaseId?: string; // Firestore document ID
   id: string;

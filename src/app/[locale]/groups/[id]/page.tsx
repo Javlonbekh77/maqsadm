@@ -24,6 +24,8 @@ import GoBackButton from '@/components/go-back-button';
 import { useState } from 'react';
 import JoinGroupDialog from '@/components/groups/join-group-dialog';
 import { useTranslations } from 'next-intl';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import WeeklyMeetings from '@/components/groups/weekly-meetings';
 
 
 export default function GroupDetailPage() {
@@ -82,9 +84,14 @@ export default function GroupDetailPage() {
             </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <Card>
+        <Tabs defaultValue="tasks" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="tasks">{t('tasksTitle')}</TabsTrigger>
+            <TabsTrigger value="members">{t('membersTitle', { count: members.length })}</TabsTrigger>
+            <TabsTrigger value="meetings">Haftalik Uchrashuvlar</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tasks">
+             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
                   <CardTitle>{t('tasksTitle')}</CardTitle>
@@ -119,9 +126,8 @@ export default function GroupDetailPage() {
                 </Table>
               </CardContent>
             </Card>
-          </div>
-
-          <div className="lg:col-span-1">
+          </TabsContent>
+          <TabsContent value="members">
             <Card>
               <CardHeader>
                 <CardTitle>{t('membersTitle', { count: members.length })}</CardTitle>
@@ -152,8 +158,11 @@ export default function GroupDetailPage() {
                 ))}
               </CardContent>
             </Card>
-          </div>
-        </div>
+          </TabsContent>
+          <TabsContent value="meetings">
+            <WeeklyMeetings groupId={group.id} />
+          </TabsContent>
+        </Tabs>
       </div>
       <JoinGroupDialog
         isOpen={isJoinDialogOpen}
