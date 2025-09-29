@@ -1,6 +1,5 @@
 import AppLayout from "@/components/layout/app-layout";
 import TodoList from "@/components/dashboard/todo-list";
-import AISuggestions from "@/components/dashboard/ai-suggestions";
 import { getUserById, getUserTasks } from "@/lib/data";
 import type { UserTask } from "@/lib/types";
 
@@ -30,12 +29,9 @@ export default function DashboardPage() {
           <p className="text-muted-foreground">Here's what's on your plate for today. Let's make it a productive one.</p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
-          <div className="lg:col-span-2">
+        <div className="grid gap-8 items-start">
+          <div>
             <TodoList initialTasks={tasks} />
-          </div>
-          <div className="lg:col-span-1">
-            <AISuggestions user={user} />
           </div>
         </div>
       </div>

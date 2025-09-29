@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, Users, Trophy, BrainCircuit } from 'lucide-react';
+import { CheckCircle, Users, Trophy } from 'lucide-react';
 import Logo from '@/components/logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -21,11 +21,6 @@ const features = [
     icon: <Trophy className="h-8 w-8 text-primary" />,
     title: 'Earn & Compete',
     description: 'Earn coins for completing tasks and climb the leaderboards. Healthy competition to fuel your drive.',
-  },
-  {
-    icon: <BrainCircuit className="h-8 w-8 text-primary" />,
-    title: 'AI-Powered Suggestions',
-    description: 'Get intelligent recommendations for new tasks and groups that align with your personal goals.',
   },
 ];
 
@@ -92,7 +87,7 @@ export default function LandingPage() {
                 A clean, focused, and collaborative environment designed to help you succeed.
               </p>
             </div>
-            <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-4">
+            <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-3">
               {features.map((feature) => (
                 <Card key={feature.title} className="bg-card/80 border-border/50 hover:border-primary/50 transition-all hover:shadow-lg hover:-translate-y-1">
                   <CardHeader className="flex flex-col items-center text-center gap-4">
