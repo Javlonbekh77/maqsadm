@@ -69,11 +69,11 @@ export default function AppSidebar() {
       >
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9">
-            <AvatarImage src={currentUser?.avatarUrl} alt={currentUser?.name} />
-            <AvatarFallback>{currentUser?.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src={currentUser?.avatarUrl} alt={currentUser?.fullName} />
+            <AvatarFallback>{currentUser?.fullName.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1 overflow-hidden">
-            <p className="truncate font-semibold">{currentUser?.name}</p>
+            <p className="truncate font-semibold">{currentUser?.fullName}</p>
             <p className="truncate text-xs text-muted-foreground">{t('header.logout')}</p>
           </div>
           <button>

@@ -13,7 +13,7 @@ export type TaskHistory = {
 
 export type User = {
   id: string;
-  name: string;
+  fullName: string;
   avatarUrl: string;
   coins: number;
   goals: string;

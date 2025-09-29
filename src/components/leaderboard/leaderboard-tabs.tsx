@@ -64,10 +64,10 @@ export default function LeaderboardTabs() {
                     <TableCell>
                       <Link href={`/profile/${user.id}`} className="flex items-center gap-3 hover:underline">
                         <Avatar>
-                          <AvatarImage src={user.avatarUrl} alt={user.name} />
-                          <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                          <AvatarImage src={user.avatarUrl} alt={user.fullName} />
+                          <AvatarFallback>{user.fullName.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <span className="font-medium">{user.name}</span>
+                        <span className="font-medium">{user.fullName}</span>
                       </Link>
                     </TableCell>
                     <TableCell className="text-right">

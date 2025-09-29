@@ -40,7 +40,7 @@ export default function GroupCard({ group }: { group: Group }) {
               member &&
               <Avatar key={member.id} className="inline-block h-6 w-6 rounded-full ring-2 ring-background">
                 <AvatarImage src={member.avatarUrl} />
-                <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                <AvatarFallback>{member.fullName.charAt(0)}</AvatarFallback>
               </Avatar>
             ))}
           </div>

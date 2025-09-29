@@ -30,7 +30,7 @@ export default function DashboardPage() {
     <AppLayout>
       <div className="grid gap-8">
         <div>
-          <h1 className="text-3xl font-bold font-headline">{t('dashboard.welcome', { name: user.name })}</h1>
+          <h1 className="text-3xl font-bold font-headline">{t('dashboard.welcome', { name: user.fullName.split(' ')[0] })}</h1>
           <p className="text-muted-foreground">{t('dashboard.welcomeSubtitle')}</p>
         </div>
 

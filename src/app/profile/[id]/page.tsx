@@ -36,7 +36,7 @@ export default function ProfilePage() {
       <div className="space-y-8">
         <GoBackButton />
         <div>
-          <h1 className="text-3xl font-bold font-headline">{isCurrentUser ? t('profile.title') : user.name}</h1>
+          <h1 className="text-3xl font-bold font-headline">{isCurrentUser ? t('profile.title') : user.fullName}</h1>
           {!isCurrentUser && <p className="text-muted-foreground">{user.occupation}</p>}
         </div>
 
@@ -45,8 +45,8 @@ export default function ProfilePage() {
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="relative w-32 h-32">
                   <Avatar className="w-32 h-32 border-4 border-background ring-4 ring-primary">
-                    <AvatarImage src={user.avatarUrl} alt={user.name} />
-                    <AvatarFallback className="text-4xl">{user.name.charAt(0)}</AvatarFallback>
+                    <AvatarImage src={user.avatarUrl} alt={user.fullName} />
+                    <AvatarFallback className="text-4xl">{user.fullName.charAt(0)}</AvatarFallback>
                   </Avatar>
                   {isCurrentUser && (
                     <Button size="icon" className="absolute -bottom-2 -right-2 rounded-full h-10 w-10">
@@ -55,7 +55,7 @@ export default function ProfilePage() {
                   )}
                 </div>
                 <div className="flex flex-col justify-center gap-1">
-                    <h2 className="text-3xl font-bold font-headline">{user.name}</h2>
+                    <h2 className="text-3xl font-bold font-headline">{user.fullName}</h2>
                      <div className="flex items-center gap-2 text-muted-foreground">
                         <Briefcase className="h-5 w-5" />
                         <span className="text-lg">{user.occupation}</span>

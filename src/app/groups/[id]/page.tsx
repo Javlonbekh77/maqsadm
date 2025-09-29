@@ -48,6 +48,8 @@ export default function GroupDetailPage() {
   const isMember = group.members.includes(currentUserId);
 
   const handleJoinGroup = () => {
+    // For this demo, we'll just add the user. 
+    // In a real app, you might want to handle which tasks they've committed to.
     addUserToGroup(currentUserId, group.id);
     // Re-fetch group data to update membership status
     setGroup(getGroupById(id)); 
@@ -71,7 +73,7 @@ export default function GroupDetailPage() {
             <p className="text-lg text-white/80 max-w-2xl mt-2">{group.description}</p>
           </div>
            <div className="absolute top-4 right-4">
-              {!isMember && !isAdmin && (
+              {!isMember && (
                 <Button onClick={() => setJoinDialogOpen(true)}>
                   <UserPlus className="mr-2 h-4 w-4" />
                   {t('groupDetail.joinGroup')}
@@ -129,11 +131,11 @@ export default function GroupDetailPage() {
                   <div key={member.id} className="flex items-center justify-between">
                     <Link href={`/profile/${member.id}`} className="flex items-center gap-3 hover:underline">
                       <Avatar>
-                        <AvatarImage src={member.avatarUrl} alt={member.name} />
-                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                        <AvatarImage src={member.avatarUrl} alt={member.fullName} />
+                        <AvatarFallback>{member.fullName.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div className='flex flex-col'>
-                         <p className="font-medium">{member.name}</p>
+                         <p className="font-medium">{member.fullName}</p>
                           {group.adminId === member.id && (
                             <Badge variant="secondary" className="gap-1 pl-1.5 w-fit">
                               <Crown className="h-3 w-3 text-amber-500" />

@@ -32,10 +32,10 @@ export default function GoalMates({ userId }: GoalMatesProps) {
                     {goalMates.map(mate => (
                         <Link href={`/profile/${mate.id}`} key={mate.id} className="group flex flex-col items-center gap-2 text-center">
                             <Avatar className="h-20 w-20 ring-2 ring-offset-2 ring-offset-background ring-transparent group-hover:ring-primary transition-all">
-                                <AvatarImage src={mate.avatarUrl} alt={mate.name} />
-                                <AvatarFallback>{mate.name.charAt(0)}</AvatarFallback>
+                                <AvatarImage src={mate.avatarUrl} alt={mate.fullName} />
+                                <AvatarFallback>{mate.fullName.charAt(0)}</AvatarFallback>
                             </Avatar>
-                            <div className="text-sm font-medium">{mate.name}</div>
+                            <div className="text-sm font-medium">{mate.fullName}</div>
                         </Link>
                     ))}
                 </div>

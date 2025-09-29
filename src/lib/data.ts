@@ -26,7 +26,7 @@ const generateTaskHistory = (tasks: {taskId: string, frequency: number}[]): Task
 export let users: User[] = [
   {
     id: 'user-1',
-    name: 'Sarah',
+    fullName: 'Sarah Johnson',
     avatarUrl: getUserAvatar('user1'),
     coins: 1250,
     goals: 'Run a 5k, read 12 books this year',
@@ -37,7 +37,7 @@ export let users: User[] = [
   },
   {
     id: 'user-2',
-    name: 'David',
+    fullName: 'David Martinez',
     avatarUrl: getUserAvatar('user2'),
     coins: 980,
     goals: 'Learn Next.js, contribute to an open-source project',
@@ -48,7 +48,7 @@ export let users: User[] = [
   },
   {
     id: 'user-3',
-    name: 'Emily',
+    fullName: 'Emily White',
     avatarUrl: getUserAvatar('user3'),
     coins: 1500,
     goals: 'Workout 4 times a week',
@@ -59,7 +59,7 @@ export let users: User[] = [
   },
   {
     id: 'user-4',
-    name: 'Michael',
+    fullName: 'Michael Brown',
     avatarUrl: getUserAvatar('user4'),
     coins: 720,
     goals: 'Read more classic literature',
