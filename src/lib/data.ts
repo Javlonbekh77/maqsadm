@@ -1,0 +1,177 @@
+import type { User, Group, Task } from './types';
+import { PlaceHolderImages } from './placeholder-images';
+
+const getUserAvatar = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
+const getGroupImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
+const getGroupImageHint = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageHint || '';
+
+
+export const users: User[] = [
+  {
+    id: 'user-1',
+    name: 'Sarah',
+    avatarUrl: getUserAvatar('user1'),
+    coins: 1250,
+    goals: 'Run a 5k, read 12 books this year',
+    habits: 'Morning jogs, reading before bed',
+    groups: ['group-1', 'group-2'],
+  },
+  {
+    id: 'user-2',
+    name: 'David',
+    avatarUrl: getUserAvatar('user2'),
+    coins: 980,
+    goals: 'Learn Next.js, contribute to an open-source project',
+    habits: 'Daily coding challenges, reviewing pull requests',
+    groups: ['group-3'],
+  },
+  {
+    id: 'user-3',
+    name: 'Emily',
+    avatarUrl: getUserAvatar('user3'),
+    coins: 1500,
+    goals: 'Workout 4 times a week',
+    habits: 'Gym sessions, meal prepping',
+    groups: ['group-1', 'group-4'],
+  },
+  {
+    id: 'user-4',
+    name: 'Michael',
+    avatarUrl: getUserAvatar('user4'),
+    coins: 720,
+    goals: 'Read more classic literature',
+    habits: 'Weekend reading sprints',
+    groups: ['group-2'],
+  },
+];
+
+export const groups: Group[] = [
+  {
+    id: 'group-1',
+    name: 'Morning Runners',
+    description: 'A group for early birds who love to start their day with a run.',
+    imageUrl: getGroupImage('group1'),
+    imageHint: getGroupImageHint('group1'),
+    members: ['user-1', 'user-3'],
+    adminId: 'user-1',
+  },
+  {
+    id: 'group-2',
+    name: 'Book Worms Society',
+    description: 'Discussing a new book every month. From classics to modern sci-fi.',
+    imageUrl: getGroupImage('group2'),
+    imageHint: getGroupImageHint('group2'),
+    members: ['user-1', 'user-4'],
+    adminId: 'user-4',
+  },
+  {
+    id: 'group-3',
+    name: 'Code Crafters',
+    description: 'For developers passionate about building amazing things with code.',
+    imageUrl: getGroupImage('group3'),
+    imageHint: getGroupImageHint('group3'),
+    members: ['user-2'],
+    adminId: 'user-2',
+  },
+    {
+    id: 'group-4',
+    name: 'Fitness Fanatics',
+    description: 'Share workout plans, nutrition tips, and stay accountable.',
+    imageUrl: getGroupImage('group4'),
+    imageHint: getGroupImageHint('group4'),
+    members: ['user-3'],
+    adminId: 'user-3',
+  },
+];
+
+export const tasks: Task[] = [
+  {
+    id: 'task-1',
+    groupId: 'group-1',
+    title: 'Complete a 3-mile run',
+    description: 'Log a run of at least 3 miles. Share your time if you feel like it!',
+    coins: 50,
+  },
+  {
+    id: 'task-2',
+    groupId: 'group-1',
+    title: 'Post a sunrise picture from your run',
+    description: 'Share the beauty of the morning with the group.',
+    coins: 20,
+  },
+  {
+    id: 'task-3',
+    groupId: 'group-2',
+    title: 'Finish this month\'s book',
+    description: 'Complete "Dune" by Frank Herbert and prepare for the discussion.',
+    coins: 100,
+  },
+  {
+    id: 'task-4',
+    groupId: 'group-2',
+    title: 'Share a quote from the book',
+    description: 'Post your favorite quote in the group chat.',
+    coins: 15,
+  },
+  {
+    id: 'task-5',
+    groupId: 'group-3',
+    title: 'Solve a LeetCode problem',
+    description: 'Pick a problem (medium difficulty) and share your solution.',
+    coins: 75,
+  },
+  {
+    id: 'task-6',
+    groupId: 'group-3',
+    title: 'Review a PR',
+    description: 'Provide a constructive review on a project PR.',
+    coins: 40,
+  },
+  {
+      id: 'task-7',
+      groupId: 'group-4',
+      title: 'Complete 3 workouts this week',
+      description: 'Log at least 3 separate workout sessions.',
+      coins: 80,
+  },
+  {
+      id: 'task-8',
+      groupId: 'group-4',
+      title: 'Share a healthy recipe',
+      description: 'Post a recipe you love in the group resources.',
+      coins: 25,
+  }
+];
+
+// Helper functions to get data
+export const getGroups = () => groups;
+export const getGroupById = (id: string) => groups.find((g) => g.id === id);
+export const getTasksByGroupId = (groupId: string) => tasks.filter((t) => t.groupId === groupId);
+export const getUsers = () => users;
+export const getUserById = (id: string) => users.find((u) => u.id === id);
+export const getTopUsers = () => [...users].sort((a, b) => b.coins - a.coins).slice(0, 10);
+export const getTopGroups = () => {
+    return groups.map(group => {
+        const groupCoins = group.members.reduce((total, memberId) => {
+            const user = getUserById(memberId);
+            return total + (user?.coins || 0);
+        }, 0);
+        return { ...group, coins: groupCoins };
+    }).sort((a, b) => b.coins - a.coins).slice(0, 10);
+};
+
+export const getUserTasks = (userId: string) => {
+    const user = getUserById(userId);
+    if (!user) return [];
+    
+    return tasks
+        .filter(task => user.groups.includes(task.groupId))
+        .map(task => {
+            const group = getGroupById(task.groupId);
+            return {
+                ...task,
+                groupName: group?.name || 'Unknown Group',
+                isCompleted: false // In a real app, this would be fetched from user data
+            }
+        });
+};
