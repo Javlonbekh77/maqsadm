@@ -26,18 +26,20 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { getUserById } from '@/lib/data';
 import { useTranslation } from 'react-i18next';
 
+const currentUserId = 'user-1';
+
 const navItems = [
-  { href: '/dashboard', icon: LayoutDashboard, labelKey: 'nav.dashboard' },
-  { href: '/groups', icon: Users, labelKey: 'nav.groups' },
-  { href: '/leaderboard', icon: Trophy, labelKey: 'nav.leaderboard' },
-  { href: '/profile', icon: UserCircle, labelKey: 'nav.profile' },
+  { href: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
+  { href: '/groups', labelKey: 'nav.groups', icon: Users },
+  { href: '/leaderboard', labelKey: 'nav.leaderboard', icon: Trophy },
+  { href: `/profile/${currentUserId}`, labelKey: 'nav.profile', icon: UserCircle },
 ];
 
 export default function AppSidebar() {
   const { t } = useTranslation();
   const pathname = usePathname();
   const { state } = useSidebar();
-  const currentUser = getUserById('user-1');
+  const currentUser = getUserById(currentUserId);
 
   return (
     <Sidebar>

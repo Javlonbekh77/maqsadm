@@ -6,6 +6,11 @@ export type Task = {
   groupId: string;
 };
 
+export type TaskHistory = {
+  taskId: string;
+  date: string; // YYYY-MM-DD
+};
+
 export type User = {
   id: string;
   name: string;
@@ -14,6 +19,8 @@ export type User = {
   goals: string;
   habits: string;
   groups: string[]; // array of group IDs
+  occupation: string;
+  taskHistory: TaskHistory[];
 };
 
 export type Group = {

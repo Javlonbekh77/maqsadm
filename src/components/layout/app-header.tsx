@@ -33,15 +33,20 @@ export default function AppHeader() {
   const isMobile = useIsMobile();
   const pathname = usePathname();
   // In a real app, this would come from an auth context
-  const currentUser = getUserById('user-1'); 
-  const pageTitleKey = pageTitles[pathname] || 'MaqsadM';
-  const pageTitle = t(pageTitleKey);
+  const currentUserId = 'user-1';
+  const currentUser = getUserById(currentUserId); 
+  
+  const getPageTitle = () => {
+    if (pathname.startsWith('/profile/')) return t('nav.profile');
+    if (pathname.startsWith('/groups/')) return t('nav.groups');
+    return t(pageTitles[pathname] || 'MaqsadM');
+  }
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
       <div className="flex items-center gap-2">
         <SidebarTrigger className="md:hidden" />
-        <h1 className="text-xl font-semibold font-headline hidden md:block">{pageTitle}</h1>
+        <h1 className="text-xl font-semibold font-headline hidden md:block">{getPageTitle()}</h1>
       </div>
 
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
@@ -81,7 +86,7 @@ export default function AppHeader() {
               <DropdownMenuLabel>{t('header.myAccount')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/profile">{t('nav.profile')}</Link>
+                <Link href={`/profile/${currentUserId}`}>{t('nav.profile')}</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>{t('header.settings')}</DropdownMenuItem>
               <DropdownMenuSeparator />

@@ -18,6 +18,7 @@ import { Coins, Crown, Medal, Trophy } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 const RankIcon = ({ rank }: { rank: number }) => {
   if (rank === 1) return <Medal className="h-5 w-5 text-yellow-500" />;
@@ -61,13 +62,13 @@ export default function LeaderboardTabs() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-3">
+                      <Link href={`/profile/${user.id}`} className="flex items-center gap-3 hover:underline">
                         <Avatar>
                           <AvatarImage src={user.avatarUrl} alt={user.name} />
                           <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <span className="font-medium">{user.name}</span>
-                      </div>
+                      </Link>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1 font-semibold text-amber-500">
@@ -102,12 +103,12 @@ export default function LeaderboardTabs() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-3">
+                       <Link href={`/groups/${group.id}`} className="flex items-center gap-3 hover:underline">
                         <div className="w-10 h-10 rounded-md overflow-hidden relative">
                             <Image src={group.imageUrl} alt={group.name} fill className='object-cover' />
                         </div>
                         <span className="font-medium">{group.name}</span>
-                      </div>
+                      </Link>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1 font-semibold text-amber-500">

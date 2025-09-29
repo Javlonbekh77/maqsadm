@@ -1,9 +1,26 @@
-import type { User, Group, Task } from './types';
+import type { User, Group, Task, TaskHistory } from './types';
 import { PlaceHolderImages } from './placeholder-images';
+import { subDays, format } from 'date-fns';
 
 const getUserAvatar = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
 const getGroupImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
 const getGroupImageHint = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageHint || '';
+
+
+// Generate some fake task history
+const generateTaskHistory = (tasks: {taskId: string, frequency: number}[]): TaskHistory[] => {
+    const history: TaskHistory[] = [];
+    const today = new Date();
+    for (let i = 0; i < 30; i++) { // last 30 days
+        const date = subDays(today, i);
+        tasks.forEach(taskInfo => {
+             if (Math.random() < taskInfo.frequency) {
+                history.push({ taskId: taskInfo.taskId, date: format(date, 'yyyy-MM-dd') });
+            }
+        })
+    }
+    return history;
+}
 
 
 export const users: User[] = [
@@ -15,6 +32,8 @@ export const users: User[] = [
     goals: 'Run a 5k, read 12 books this year',
     habits: 'Morning jogs, reading before bed',
     groups: ['group-1', 'group-2'],
+    occupation: 'Graphic Designer at Studio Ghibli',
+    taskHistory: generateTaskHistory([{taskId: 'task-1', frequency: 0.8}, {taskId: 'task-3', frequency: 0.9}]),
   },
   {
     id: 'user-2',
@@ -24,6 +43,8 @@ export const users: User[] = [
     goals: 'Learn Next.js, contribute to an open-source project',
     habits: 'Daily coding challenges, reviewing pull requests',
     groups: ['group-3'],
+    occupation: 'Student at Astrum IT Academy',
+    taskHistory: generateTaskHistory([{taskId: 'task-5', frequency: 0.7}]),
   },
   {
     id: 'user-3',
@@ -33,6 +54,8 @@ export const users: User[] = [
     goals: 'Workout 4 times a week',
     habits: 'Gym sessions, meal prepping',
     groups: ['group-1', 'group-4'],
+    occupation: 'Fitness Coach at Ecofit',
+    taskHistory: generateTaskHistory([{taskId: 'task-1', frequency: 0.6}, {taskId: 'task-7', frequency: 0.95}]),
   },
   {
     id: 'user-4',
@@ -42,6 +65,8 @@ export const users: User[] = [
     goals: 'Read more classic literature',
     habits: 'Weekend reading sprints',
     groups: ['group-2'],
+    occupation: 'Librarian at National Library',
+    taskHistory: generateTaskHistory([{taskId: 'task-3', frequency: 0.5}]),
   },
 ];
 
@@ -164,14 +189,18 @@ export const getUserTasks = (userId: string) => {
     const user = getUserById(userId);
     if (!user) return [];
     
+    // In a real app, this logic would be more complex
+    const today = format(new Date(), 'yyyy-MM-dd');
+    
     return tasks
         .filter(task => user.groups.includes(task.groupId))
         .map(task => {
             const group = getGroupById(task.groupId);
+            const isCompletedToday = user.taskHistory.some(h => h.taskId === task.id && h.date === today);
             return {
                 ...task,
                 groupName: group?.name || 'Unknown Group',
-                isCompleted: false // In a real app, this would be fetched from user data
+                isCompleted: isCompletedToday,
             }
         });
 };

@@ -2,7 +2,7 @@
 'use client';
 
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import AppLayout from '@/components/layout/app-layout';
 import { getGroupById, getUserById, getTasksByGroupId } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -20,11 +20,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 
-export default function GroupDetailPage({ params }: { params: { id: string } }) {
+export default function GroupDetailPage() {
   const { t } = useTranslation();
-  const id = params.id;
+  const params = useParams();
+  const id = params.id as string;
   const group = getGroupById(id);
   // In a real app, this would be from an auth context
   const currentUserId = 'user-1';
@@ -107,19 +109,21 @@ export default function GroupDetailPage({ params }: { params: { id: string } }) 
               <CardContent className="space-y-4">
                 {members.map(member => member && (
                   <div key={member.id} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
+                    <Link href={`/profile/${member.id}`} className="flex items-center gap-3 hover:underline">
                       <Avatar>
                         <AvatarImage src={member.avatarUrl} alt={member.name} />
                         <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
                       </Avatar>
-                      <p className="font-medium">{member.name}</p>
-                      {group.adminId === member.id && (
-                        <Badge variant="secondary" className="gap-1 pl-1.5">
-                          <Crown className="h-3 w-3 text-amber-500" />
-                          {t('groupDetail.adminBadge')}
-                        </Badge>
-                      )}
-                    </div>
+                      <div className='flex flex-col'>
+                         <p className="font-medium">{member.name}</p>
+                          {group.adminId === member.id && (
+                            <Badge variant="secondary" className="gap-1 pl-1.5 w-fit">
+                              <Crown className="h-3 w-3 text-amber-500" />
+                              {t('groupDetail.adminBadge')}
+                            </Badge>
+                          )}
+                      </div>
+                    </Link>
                     <div className="text-sm text-muted-foreground flex items-center gap-1">
                         <Coins className="w-4 h-4 text-amber-500"/>
                         {member.coins}
