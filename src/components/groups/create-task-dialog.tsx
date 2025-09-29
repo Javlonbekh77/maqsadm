@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -15,8 +16,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { PlusCircle, Coins } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateTaskDialog() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   // In a real app, this would be a form with state management (e.g. react-hook-form)
@@ -32,40 +35,40 @@ export default function CreateTaskDialog() {
       <DialogTrigger asChild>
         <Button>
           <PlusCircle className="mr-2 h-4 w-4" />
-          Add Task
+          {t('createTaskDialog.addTaskButton')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create New Task</DialogTitle>
+          <DialogTitle>{t('createTaskDialog.title')}</DialogTitle>
           <DialogDescription>
-            Add a new task for your group members to complete.
+            {t('createTaskDialog.description')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="title" className="text-right">
-              Title
+              {t('createTaskDialog.titleLabel')}
             </Label>
-            <Input id="title" placeholder="e.g., Run 5km" className="col-span-3" />
+            <Input id="title" placeholder={t('createTaskDialog.titlePlaceholder')} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-start gap-4">
             <Label htmlFor="description" className="text-right pt-2">
-              Description
+              {t('createTaskDialog.descriptionLabel')}
             </Label>
-            <Textarea id="description" placeholder="Add details about the task" className="col-span-3" />
+            <Textarea id="description" placeholder={t('createTaskDialog.descriptionPlaceholder')} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="coins" className="text-right flex items-center justify-end gap-1">
                 <Coins className="h-4 w-4 text-amber-500" />
-                Coins
+                {t('createTaskDialog.coinsLabel')}
             </Label>
-            <Input id="coins" type="number" placeholder="e.g., 50" className="col-span-3" />
+            <Input id="coins" type="number" placeholder={t('createTaskDialog.coinsPlaceholder')} className="col-span-3" />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button type="submit" onClick={handleSubmit}>Create Task</Button>
+          <Button variant="outline" onClick={() => setOpen(false)}>{t('actions.cancel')}</Button>
+          <Button type="submit" onClick={handleSubmit}>{t('createTaskDialog.createTaskButton')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

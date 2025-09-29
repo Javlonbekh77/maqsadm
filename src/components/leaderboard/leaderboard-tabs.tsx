@@ -1,3 +1,6 @@
+
+'use client';
+
 import { getTopUsers, getTopGroups } from '@/lib/data';
 import type { User, Group } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Coins, Crown, Medal, Trophy } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 const RankIcon = ({ rank }: { rank: number }) => {
   if (rank === 1) return <Medal className="h-5 w-5 text-yellow-500" />;
@@ -23,6 +27,7 @@ const RankIcon = ({ rank }: { rank: number }) => {
 };
 
 export default function LeaderboardTabs() {
+  const { t } = useTranslation();
   const topUsers = getTopUsers();
   const topGroups = getTopGroups();
 
@@ -30,10 +35,10 @@ export default function LeaderboardTabs() {
     <Tabs defaultValue="users">
       <TabsList className="grid w-full grid-cols-2 md:w-96">
         <TabsTrigger value="users">
-          <Trophy className="mr-2 h-4 w-4" /> Top Users
+          <Trophy className="mr-2 h-4 w-4" /> {t('leaderboard.topUsers')}
         </TabsTrigger>
         <TabsTrigger value="groups">
-          <Crown className="mr-2 h-4 w-4" /> Top Groups
+          <Crown className="mr-2 h-4 w-4" /> {t('leaderboard.topGroups')}
         </TabsTrigger>
       </TabsList>
       <TabsContent value="users">
@@ -42,9 +47,9 @@ export default function LeaderboardTabs() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-16 text-center">Rank</TableHead>
-                  <TableHead>User</TableHead>
-                  <TableHead className="text-right">Coins</TableHead>
+                  <TableHead className="w-16 text-center">{t('leaderboard.rank')}</TableHead>
+                  <TableHead>{t('leaderboard.user')}</TableHead>
+                  <TableHead className="text-right">{t('leaderboard.coins')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -83,9 +88,9 @@ export default function LeaderboardTabs() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-16 text-center">Rank</TableHead>
-                  <TableHead>Group</TableHead>
-                  <TableHead className="text-right">Total Coins</TableHead>
+                  <TableHead className="w-16 text-center">{t('leaderboard.rank')}</TableHead>
+                  <TableHead>{t('leaderboard.group')}</TableHead>
+                  <TableHead className="text-right">{t('leaderboard.totalCoins')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

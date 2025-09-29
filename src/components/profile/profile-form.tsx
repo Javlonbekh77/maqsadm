@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -18,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { User } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Separator } from '../ui/separator';
+import { useTranslation } from 'react-i18next';
 
 const profileFormSchema = z.object({
   goals: z
@@ -33,6 +35,7 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfileForm({ user }: { user: User }) {
+  const { t } = useTranslation();
   const { toast } = useToast();
 
   const form = useForm<ProfileFormValues>({
@@ -48,8 +51,8 @@ export default function ProfileForm({ user }: { user: User }) {
     // In a real app, this would be an API call
     console.log('Updating profile:', data);
     toast({
-      title: 'Profile Updated',
-      description: 'Your goals and habits have been saved successfully.',
+      title: t('profile.toast.title'),
+      description: t('profile.toast.description'),
     });
   }
 
@@ -62,13 +65,13 @@ export default function ProfileForm({ user }: { user: User }) {
           name="goals"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">My Goals</FormLabel>
+              <FormLabel className="text-lg">{t('profile.myGoals')}</FormLabel>
               <FormDescription>
-                What are you trying to achieve? Be specific! (e.g., Run a marathon, learn to code, read 20 books)
+                {t('profile.myGoalsDescription')}
               </FormDescription>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us about your goals..."
+                  placeholder={t('profile.myGoalsPlaceholder')}
                   className="resize-y min-h-[100px]"
                   {...field}
                 />
@@ -82,13 +85,13 @@ export default function ProfileForm({ user }: { user: User }) {
           name="habits"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-lg">My Habits</FormLabel>
+              <FormLabel className="text-lg">{t('profile.myHabits')}</FormLabel>
               <FormDescription>
-                What are the daily/weekly habits you are building? (e.g., Meditate daily, workout 3x a week)
+                {t('profile.myHabitsDescription')}
               </FormDescription>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us about your habits..."
+                  placeholder={t('profile.myHabitsPlaceholder')}
                   className="resize-y min-h-[100px]"
                   {...field}
                 />
@@ -98,7 +101,7 @@ export default function ProfileForm({ user }: { user: User }) {
           )}
         />
         <div className="flex justify-end">
-            <Button type="submit">Update Profile</Button>
+            <Button type="submit">{t('profile.updateButton')}</Button>
         </div>
       </form>
     </Form>

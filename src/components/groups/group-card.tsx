@@ -1,3 +1,6 @@
+
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,8 +9,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Group } from "@/lib/types";
 import { getUserById } from "@/lib/data";
 import { ArrowRight, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function GroupCard({ group }: { group: Group }) {
+  const { t } = useTranslation();
   const members = group.members.map(id => getUserById(id)).filter(Boolean);
 
   return (
@@ -39,11 +44,11 @@ export default function GroupCard({ group }: { group: Group }) {
               </Avatar>
             ))}
           </div>
-          <span className="text-xs font-medium text-muted-foreground">{group.members.length} members</span>
+          <span className="text-xs font-medium text-muted-foreground">{t('groupCard.members', { count: group.members.length })}</span>
         </div>
         <Button variant="outline" size="sm" asChild>
           <Link href={`/groups/${group.id}`}>
-            View
+            {t('groupCard.view')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>

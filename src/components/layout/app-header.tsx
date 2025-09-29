@@ -1,3 +1,4 @@
+
 'use client';
 
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -17,20 +18,24 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { getUserById } from '@/lib/data';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../language-switcher';
 
 const pageTitles: { [key: string]: string } = {
-  '/dashboard': 'Dashboard',
-  '/groups': 'Groups',
-  '/leaderboard': 'Leaderboard',
-  '/profile': 'My Profile',
+  '/dashboard': 'nav.dashboard',
+  '/groups': 'nav.groups',
+  '/leaderboard': 'nav.leaderboard',
+  '/profile': 'nav.profile',
 };
 
 export default function AppHeader() {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const pathname = usePathname();
   // In a real app, this would come from an auth context
   const currentUser = getUserById('user-1'); 
-  const pageTitle = pageTitles[pathname] || 'MaqsadM';
+  const pageTitleKey = pageTitles[pathname] || 'MaqsadM';
+  const pageTitle = t(pageTitleKey);
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
@@ -46,16 +51,17 @@ export default function AppHeader() {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search..."
+                placeholder={t('header.searchPlaceholder')}
                 className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] bg-background"
               />
             </div>
           )}
         </form>
         <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           <Button variant="ghost" size="icon" className="rounded-full">
             <Bell className="h-5 w-5" />
-            <span className="sr-only">Toggle notifications</span>
+            <span className="sr-only">{t('header.toggleNotifications')}</span>
           </Button>
           <div className="flex items-center gap-2 text-sm font-semibold text-amber-500">
              <Coins className="h-5 w-5"/>
@@ -72,14 +78,14 @@ export default function AppHeader() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{t('header.myAccount')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/profile">Profile</Link>
+                <Link href="/profile">{t('nav.profile')}</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>{t('header.settings')}</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>{t('header.logout')}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -23,15 +24,17 @@ import {
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { getUserById } from '@/lib/data';
+import { useTranslation } from 'react-i18next';
 
 const navItems = [
-  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/groups', icon: Users, label: 'Groups' },
-  { href: '/leaderboard', icon: Trophy, label: 'Leaderboard' },
-  { href: '/profile', icon: UserCircle, label: 'Profile' },
+  { href: '/dashboard', icon: LayoutDashboard, labelKey: 'nav.dashboard' },
+  { href: '/groups', icon: Users, labelKey: 'nav.groups' },
+  { href: '/leaderboard', icon: Trophy, labelKey: 'nav.leaderboard' },
+  { href: '/profile', icon: UserCircle, labelKey: 'nav.profile' },
 ];
 
 export default function AppSidebar() {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const { state } = useSidebar();
   const currentUser = getUserById('user-1');
@@ -47,10 +50,10 @@ export default function AppSidebar() {
             <Link href={item.href}>
               <SidebarMenuButton
                 isActive={pathname.startsWith(item.href)}
-                tooltip={item.label}
+                tooltip={t(item.labelKey)}
               >
                 <item.icon className="h-5 w-5" />
-                <span>{item.label}</span>
+                <span>{t(item.labelKey)}</span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
@@ -69,7 +72,7 @@ export default function AppSidebar() {
           </Avatar>
           <div className="flex-1 overflow-hidden">
             <p className="truncate font-semibold">{currentUser?.name}</p>
-            <p className="truncate text-xs text-muted-foreground">Logout</p>
+            <p className="truncate text-xs text-muted-foreground">{t('header.logout')}</p>
           </div>
           <button>
             <LogOut className="h-5 w-5 text-muted-foreground hover:text-foreground" />

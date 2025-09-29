@@ -1,3 +1,6 @@
+
+'use client';
+
 import AppLayout from "@/components/layout/app-layout";
 import { getUserById } from "@/lib/data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,8 +9,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Coins, Edit, Upload } from "lucide-react";
 import ProfileForm from "@/components/profile/profile-form";
 import type { User } from "@/lib/types";
+import { useTranslation } from "react-i18next";
 
 export default function ProfilePage() {
+  const { t } = useTranslation();
   // In a real app, this would come from an auth context
   const user = getUserById('user-1') as User;
 
@@ -15,8 +20,8 @@ export default function ProfilePage() {
     <AppLayout>
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold font-headline">My Profile</h1>
-          <p className="text-muted-foreground">Manage your personal information, goals, and habits.</p>
+          <h1 className="text-3xl font-bold font-headline">{t('profile.title')}</h1>
+          <p className="text-muted-foreground">{t('profile.subtitle')}</p>
         </div>
 
         <Card>
@@ -36,7 +41,7 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-2 mt-2">
                         <Coins className="h-6 w-6 text-amber-500" />
                         <span className="text-2xl font-semibold">{user.coins}</span>
-                        <span className="text-muted-foreground">coins earned</span>
+                        <span className="text-muted-foreground">{t('profile.coinsEarned')}</span>
                     </div>
                 </div>
             </div>

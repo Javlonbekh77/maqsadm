@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -13,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import type { UserTask } from '@/lib/types';
 import { Coins, ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface TaskCompletionDialogProps {
   task: UserTask;
@@ -21,35 +23,37 @@ interface TaskCompletionDialogProps {
 }
 
 export default function TaskCompletionDialog({ task, onConfirm, onCancel }: TaskCompletionDialogProps) {
+  const { t } = useTranslation();
+
   return (
     <AlertDialog open onOpenChange={(isOpen) => !isOpen && onCancel()}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm Task Completion</AlertDialogTitle>
+          <AlertDialogTitle>{t('taskCompletionDialog.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            You are about to mark the task <span className="font-semibold text-foreground">"{task.title}"</span> as complete.
+            {t('taskCompletionDialog.description', { taskTitle: task.title })}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div className="my-4 p-4 bg-secondary/50 rounded-lg border space-y-3">
             <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-primary" />
-                <h4 className="font-semibold">A quick reminder on integrity:</h4>
+                <h4 className="font-semibold">{t('taskCompletionDialog.integrityTitle')}</h4>
             </div>
             <p className="text-sm text-muted-foreground">
-                By confirming, you agree that you have completed this task to the best of your ability. Honesty is key to personal growth and community trust.
+                {t('taskCompletionDialog.integrityDescription')}
             </p>
             <div className="flex items-center justify-end gap-2 text-lg font-bold text-amber-500 pt-2">
-                You will earn
+                {t('taskCompletionDialog.earn')}
                 <Coins className="h-5 w-5"/>
-                <span>{task.coins} coins</span>
+                <span>{t('taskCompletionDialog.coins', { count: task.coins })}</span>
             </div>
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel asChild>
-            <Button variant="outline" onClick={onCancel}>Cancel</Button>
+            <Button variant="outline" onClick={onCancel}>{t('actions.cancel')}</Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button onClick={onConfirm}>Yes, I've completed it!</Button>
+            <Button onClick={onConfirm}>{t('taskCompletionDialog.confirmButton')}</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

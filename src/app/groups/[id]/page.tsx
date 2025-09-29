@@ -1,3 +1,6 @@
+
+'use client';
+
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import AppLayout from '@/components/layout/app-layout';
@@ -16,9 +19,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTranslation } from 'react-i18next';
 
 
 export default function GroupDetailPage({ params }: { params: { id: string } }) {
+  const { t } = useTranslation();
   const group = getGroupById(params.id);
   // In a real app, this would be from an auth context
   const currentUserId = 'user-1';
@@ -49,7 +54,7 @@ export default function GroupDetailPage({ params }: { params: { id: string } }) 
            <div className="absolute top-4 right-4">
               <Button>
                 <UserPlus className="mr-2 h-4 w-4" />
-                Join Group
+                {t('groupDetail.joinGroup')}
               </Button>
             </div>
         </header>
@@ -59,8 +64,8 @@ export default function GroupDetailPage({ params }: { params: { id: string } }) 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle>Tasks</CardTitle>
-                  <CardDescription>Available tasks for group members.</CardDescription>
+                  <CardTitle>{t('groupDetail.tasksTitle')}</CardTitle>
+                  <CardDescription>{t('groupDetail.tasksDescription')}</CardDescription>
                 </div>
                 {isAdmin && <CreateTaskDialog />}
               </CardHeader>
@@ -68,8 +73,8 @@ export default function GroupDetailPage({ params }: { params: { id: string } }) 
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Task</TableHead>
-                      <TableHead className='text-right'>Reward</TableHead>
+                      <TableHead>{t('groupDetail.taskColumn')}</TableHead>
+                      <TableHead className='text-right'>{t('groupDetail.rewardColumn')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -96,7 +101,7 @@ export default function GroupDetailPage({ params }: { params: { id: string } }) 
           <div className="lg:col-span-1">
             <Card>
               <CardHeader>
-                <CardTitle>Members ({members.length})</CardTitle>
+                <CardTitle>{t('groupDetail.membersTitle', { count: members.length })}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {members.map(member => member && (
@@ -110,7 +115,7 @@ export default function GroupDetailPage({ params }: { params: { id: string } }) 
                       {group.adminId === member.id && (
                         <Badge variant="secondary" className="gap-1 pl-1.5">
                           <Crown className="h-3 w-3 text-amber-500" />
-                          Admin
+                          {t('groupDetail.adminBadge')}
                         </Badge>
                       )}
                     </div>
