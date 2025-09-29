@@ -24,7 +24,8 @@ import { useTranslation } from 'react-i18next';
 
 export default function GroupDetailPage({ params }: { params: { id: string } }) {
   const { t } = useTranslation();
-  const group = getGroupById(params.id);
+  const id = params.id;
+  const group = getGroupById(id);
   // In a real app, this would be from an auth context
   const currentUserId = 'user-1';
 
