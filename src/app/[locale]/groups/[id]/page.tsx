@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from 'next/link';
+import { Link } from '@/navigation';
 import GoBackButton from '@/components/go-back-button';
 import { useState } from 'react';
 import JoinGroupDialog from '@/components/groups/join-group-dialog';
@@ -129,7 +129,7 @@ export default function GroupDetailPage() {
               <CardContent className="space-y-4">
                 {members.map(member => member && (
                   <div key={member.id} className="flex items-center justify-between">
-                    <Link href={`/profile/${member.id}`} className="flex items-center gap-3 hover:underline">
+                    <Link href={{pathname: '/profile/[id]', params: {id: member.id}}} className="flex items-center gap-3 hover:underline">
                       <Avatar>
                         <AvatarImage src={member.avatarUrl} alt={member.fullName} />
                         <AvatarFallback>{member.fullName.charAt(0)}</AvatarFallback>

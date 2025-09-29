@@ -18,7 +18,7 @@ import { Coins, Crown, Medal, Trophy } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { Link } from '@/navigation';
 
 const RankIcon = ({ rank }: { rank: number }) => {
   if (rank === 1) return <Medal className="h-5 w-5 text-yellow-500" />;

@@ -2,7 +2,6 @@
 'use client';
 
 import Image from "next/image";
-import Link from "next/link";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,6 +9,7 @@ import type { Group } from "@/lib/types";
 import { getUserById } from "@/lib/data";
 import { ArrowRight, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/navigation";
 
 export default function GroupCard({ group }: { group: Group }) {
   const t = useTranslations('groupCard');

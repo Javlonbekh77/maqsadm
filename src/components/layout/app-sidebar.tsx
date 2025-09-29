@@ -1,8 +1,7 @@
 
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname } from '@/navigation';
 import {
   Sidebar,
   SidebarHeader,
@@ -52,7 +51,7 @@ export default function AppSidebar() {
           <SidebarMenuItem key={item.href}>
             <Link href={item.href}>
               <SidebarMenuButton
-                isActive={pathname.includes(item.href)}
+                isActive={pathname.startsWith(item.href)}
                 tooltip={t(item.labelKey)}
               >
                 <item.icon className="h-5 w-5" />

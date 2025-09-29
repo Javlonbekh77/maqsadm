@@ -11,13 +11,14 @@ export const pathnames = {
   '/dashboard': '/dashboard',
   '/groups': '/groups',
   '/leaderboard': '/leaderboard',
- 
+  
   // If locales use different paths, you can
   // specify each external path per locale.
-  '/profile': {
-    en: '/profile',
-    uz: '/profil'
-  }
+  '/profile/[id]': {
+    en: '/profile/[id]',
+    uz: '/profil/[id]'
+  },
+  '/groups/[id]': '/groups/[id]',
 };
  
 export const {Link, redirect, usePathname, useRouter, getPathname} =

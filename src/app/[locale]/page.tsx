@@ -1,7 +1,6 @@
 
 'use client';
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, Users, Trophy } from 'lucide-react';
@@ -9,6 +8,7 @@ import Logo from '@/components/logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/navigation';
 
 export default function LandingPage() {
   const t = useTranslations('landing');
@@ -36,7 +36,7 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50">
-        <Link href="#" className="flex items-center justify-center" prefetch={false}>
+        <Link href="/" className="flex items-center justify-center" prefetch={false}>
           <Logo />
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">

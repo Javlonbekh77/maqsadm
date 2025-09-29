@@ -16,8 +16,7 @@ import { Search, Bell, Coins } from 'lucide-react';
 import { Input } from '../ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getUserById } from '@/lib/data';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname } from '@/navigation';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from '../language-switcher';
 
@@ -38,14 +37,14 @@ export default function AppHeader() {
   
   const getPageTitle = () => {
     const pathSegments = pathname.split('/').filter(Boolean);
-    const pageKey = pathSegments[1];
-
+    // With locale prefix, the page key is the second segment
+    const pageKey = pathSegments[1]; 
     if (pageKey && pageTitles[pageKey]) {
       return t(pageTitles[pageKey]);
     }
     
     // Fallbacks for detail pages
-    if (pathname.includes('/profile/')) return t('nav.profile');
+    if (pathname.includes('/profile/') || pathname.includes('/profil/')) return t('nav.profile');
     if (pathname.includes('/groups/')) return t('nav.groups');
 
     return t('nav.dashboard'); // Default title

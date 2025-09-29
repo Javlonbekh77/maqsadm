@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Languages } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from '@/navigation';
 
 export default function LanguageSwitcher() {
   const t = useTranslations('languageSwitcher');
