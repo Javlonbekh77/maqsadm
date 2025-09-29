@@ -23,7 +23,7 @@ const generateTaskHistory = (tasks: {taskId: string, frequency: number}[]): Task
 }
 
 
-export const users: User[] = [
+export let users: User[] = [
   {
     id: 'user-1',
     name: 'Sarah',
@@ -70,7 +70,7 @@ export const users: User[] = [
   },
 ];
 
-export const groups: Group[] = [
+export let groups: Group[] = [
   {
     id: 'group-1',
     name: 'Morning Runners',
@@ -225,4 +225,21 @@ export const getGoalMates = (userId: string): User[] => {
     });
 
     return Array.from(goalMatesMap.values());
+};
+
+// Mutation functions (for client-side state updates)
+export const addUserToGroup = (userId: string, groupId: string) => {
+    users = users.map(user => {
+        if (user.id === userId && !user.groups.includes(groupId)) {
+            return { ...user, groups: [...user.groups, groupId] };
+        }
+        return user;
+    });
+
+    groups = groups.map(group => {
+        if (group.id === groupId && !group.members.includes(userId)) {
+            return { ...group, members: [...group.members, userId] };
+        }
+        return group;
+    });
 };

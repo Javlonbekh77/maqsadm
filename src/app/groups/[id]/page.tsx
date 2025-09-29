@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
 import AppLayout from '@/components/layout/app-layout';
-import { getGroupById, getUserById, getTasksByGroupId } from '@/lib/data';
+import { getGroupById, getUserById, getTasksByGroupId, addUserToGroup } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,23 +22,37 @@ import {
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import GoBackButton from '@/components/go-back-button';
+import { useState } from 'react';
+import JoinGroupDialog from '@/components/groups/join-group-dialog';
 
 
 export default function GroupDetailPage() {
   const { t } = useTranslation();
   const params = useParams();
   const id = params.id as string;
-  const group = getGroupById(id);
+  
   // In a real app, this would be from an auth context
   const currentUserId = 'user-1';
-
+  
+  const [group, setGroup] = useState(() => getGroupById(id));
+  
   if (!group) {
     notFound();
   }
-  
+
+  const [isJoinDialogOpen, setJoinDialogOpen] = useState(false);
+
   const members = group.members.map(id => getUserById(id)).filter(Boolean);
   const tasks = getTasksByGroupId(group.id);
   const isAdmin = group.adminId === currentUserId;
+  const isMember = group.members.includes(currentUserId);
+
+  const handleJoinGroup = () => {
+    addUserToGroup(currentUserId, group.id);
+    // Re-fetch group data to update membership status
+    setGroup(getGroupById(id)); 
+    setJoinDialogOpen(false);
+  };
 
   return (
     <AppLayout>
@@ -57,10 +71,12 @@ export default function GroupDetailPage() {
             <p className="text-lg text-white/80 max-w-2xl mt-2">{group.description}</p>
           </div>
            <div className="absolute top-4 right-4">
-              <Button>
-                <UserPlus className="mr-2 h-4 w-4" />
-                {t('groupDetail.joinGroup')}
-              </Button>
+              {!isMember && !isAdmin && (
+                <Button onClick={() => setJoinDialogOpen(true)}>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  {t('groupDetail.joinGroup')}
+                </Button>
+              )}
             </div>
         </header>
 
@@ -137,6 +153,13 @@ export default function GroupDetailPage() {
           </div>
         </div>
       </div>
+      <JoinGroupDialog
+        isOpen={isJoinDialogOpen}
+        onClose={() => setJoinDialogOpen(false)}
+        onConfirm={handleJoinGroup}
+        groupName={group.name}
+        tasks={tasks}
+      />
     </AppLayout>
   );
 }
