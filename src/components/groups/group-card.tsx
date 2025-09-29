@@ -5,16 +5,25 @@ import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import type { Group } from "@/lib/types";
+import type { Group, User } from "@/lib/types";
 import { getUserById } from "@/lib/data";
 import { ArrowRight, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/navigation";
+import { useEffect, useState } from "react";
 
 export default function GroupCard({ group }: { group: Group }) {
   const t = useTranslations('groupCard');
-  // Note: In a full Firestore implementation, this would also be an async call
-  const members = group.members.map(id => getUserById(id)).filter(Boolean);
+  const [members, setMembers] = useState<(User | undefined)[]>([]);
+
+  useEffect(() => {
+    async function fetchMembers() {
+      const memberPromises = group.members.map(id => getUserById(id));
+      const membersData = await Promise.all(memberPromises);
+      setMembers(membersData.filter(Boolean));
+    }
+    fetchMembers();
+  }, [group.members]);
 
   return (
     <Card className="flex flex-col overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">

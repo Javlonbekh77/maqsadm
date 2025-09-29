@@ -19,6 +19,7 @@ import { Badge } from '../ui/badge';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/navigation';
+import { useEffect, useState } from 'react';
 
 const RankIcon = ({ rank }: { rank: number }) => {
   if (rank === 1) return <Medal className="h-5 w-5 text-yellow-500" />;
@@ -29,8 +30,18 @@ const RankIcon = ({ rank }: { rank: number }) => {
 
 export default function LeaderboardTabs() {
   const t = useTranslations('leaderboard');
-  const topUsers = getTopUsers();
-  const topGroups = getTopGroups();
+  const [topUsers, setTopUsers] = useState<User[]>([]);
+  const [topGroups, setTopGroups] = useState<(Group & { coins: number })[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const users = await getTopUsers();
+      setTopUsers(users);
+      const groups = await getTopGroups();
+      setTopGroups(groups);
+    }
+    fetchData();
+  }, []);
 
   return (
     <Tabs defaultValue="users">

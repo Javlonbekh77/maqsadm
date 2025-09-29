@@ -3,13 +3,12 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getUserById, getTasksByGroupId } from "@/lib/data";
+import { getTasksByGroupId } from "@/lib/data";
 import type { Task, User } from "@/lib/types";
 import { format, subDays, isSameDay } from 'date-fns';
 import { Check, X } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState } from "react";
 
 interface HabitTrackerProps {
   user: User;
@@ -26,15 +25,22 @@ const getPastDates = (days: number): Date[] => {
 
 export default function HabitTracker({ user }: HabitTrackerProps) {
   const [selectedTaskIds, setSelectedTaskIds] = useState<string[]>([]);
+  const [userTasks, setUserTasks] = useState<Task[]>([]);
+  
   const dates = useMemo(() => getPastDates(14), []);
 
-  const userTasks = useMemo(() => {
-    return user.groups.flatMap(groupId => getTasksByGroupId(groupId));
+  useEffect(() => {
+    async function fetchUserTasks() {
+      const taskPromises = user.groups.map(groupId => getTasksByGroupId(groupId));
+      const tasksByGroup = await Promise.all(taskPromises);
+      setUserTasks(tasksByGroup.flat());
+    }
+    fetchUserTasks();
   }, [user.groups]);
   
   const handleTaskSelectionChange = (taskId: string) => {
     setSelectedTaskIds(prev => 
-      prev.includes(taskId) ? prev.filter(id => id !== taskId) : [...prev, taskId]
+      prev.includes(taskId) ? prev.filter(id => id !== taskId) : [taskId] // Allow only one selection for now
     );
   };
   

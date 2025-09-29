@@ -19,6 +19,8 @@ import { getUserById } from '@/lib/data';
 import { Link, usePathname } from '@/navigation';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from '../language-switcher';
+import { useEffect, useState } from 'react';
+import type { User } from '@/lib/types';
 
 const pageTitles: { [key: string]: string } = {
   'dashboard': 'nav.dashboard',
@@ -33,7 +35,15 @@ export default function AppHeader() {
   const pathname = usePathname();
   // In a real app, this would come from an auth context
   const currentUserId = 'user-1';
-  const currentUser = getUserById(currentUserId); 
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
+  
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await getUserById(currentUserId);
+      setCurrentUser(user);
+    }
+    fetchUser();
+  }, [currentUserId]);
   
   const getPageTitle = () => {
     const pathSegments = pathname.split('/').filter(Boolean);

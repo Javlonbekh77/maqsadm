@@ -12,8 +12,8 @@ export default async function DashboardPage() {
   const userId = 'user-1';
   
   // Fetch data on the server
-  const user = getUserById(userId);
-  const tasks: UserTask[] = getUserTasks(userId);
+  const user = await getUserById(userId);
+  const tasks: UserTask[] = await getUserTasks(userId);
   
   if (!user) {
     return (

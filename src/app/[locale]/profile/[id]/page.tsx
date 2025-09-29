@@ -15,6 +15,7 @@ import { Separator } from '@/components/ui/separator';
 import GoBackButton from '@/components/go-back-button';
 import GoalMates from '@/components/profile/goal-mates';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 
 
 export default function ProfilePage() {
@@ -25,10 +26,27 @@ export default function ProfilePage() {
   const currentUserId = 'user-1';
   const isCurrentUser = userId === currentUserId;
   
-  const user = getUserById(userId);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const userData = await getUserById(userId);
+      if (!userData) {
+        notFound();
+      } else {
+        setUser(userData);
+      }
+    }
+    fetchUser();
+  }, [userId]);
+
+  if (user === undefined) {
+    return <AppLayout><div>Loading...</div></AppLayout>;
+  }
 
   if (!user) {
-      notFound();
+      // notFound() has been called in useEffect
+      return null;
   }
 
   return (

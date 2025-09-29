@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import type { User } from "@/lib/types";
 
 interface GoalMatesProps {
     userId: string;
@@ -13,7 +15,16 @@ interface GoalMatesProps {
 
 export default function GoalMates({ userId }: GoalMatesProps) {
     const t = useTranslations('profile');
-    const goalMates = getGoalMates(userId);
+    const [goalMates, setGoalMates] = useState<User[]>([]);
+
+    useEffect(() => {
+        async function fetchGoalMates() {
+            const mates = await getGoalMates(userId);
+            setGoalMates(mates);
+        }
+        fetchGoalMates();
+    }, [userId]);
+
 
     if (goalMates.length === 0) {
         return null;

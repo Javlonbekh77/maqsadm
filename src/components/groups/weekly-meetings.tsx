@@ -1,18 +1,18 @@
 
 'use client';
 
-import { getMeetingsByGroupId } from "@/lib/data";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Calendar, Clock, Video } from "lucide-react";
 import { Link } from "@/navigation";
+import type { WeeklyMeeting } from "@/lib/types";
 
 interface WeeklyMeetingsProps {
     groupId: string;
+    meetings: WeeklyMeeting[];
 }
 
-export default function WeeklyMeetings({ groupId }: WeeklyMeetingsProps) {
-    const meetings = getMeetingsByGroupId(groupId);
+export default function WeeklyMeetings({ groupId, meetings }: WeeklyMeetingsProps) {
 
     if (meetings.length === 0) {
         return (
@@ -61,4 +61,3 @@ export default function WeeklyMeetings({ groupId }: WeeklyMeetingsProps) {
         </Card>
     );
 }
-

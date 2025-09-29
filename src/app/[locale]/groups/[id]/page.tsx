@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
 import AppLayout from '@/components/layout/app-layout';
-import { getGroupById, getUserById, getTasksByGroupId, addUserToGroup } from '@/lib/data';
+import { getGroupById, getUserById, getTasksByGroupId, addUserToGroup, getMeetingsByGroupId } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,11 +21,12 @@ import {
 } from "@/components/ui/table";
 import { Link } from '@/navigation';
 import GoBackButton from '@/components/go-back-button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import JoinGroupDialog from '@/components/groups/join-group-dialog';
 import { useTranslations } from 'next-intl';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import WeeklyMeetings from '@/components/groups/weekly-meetings';
+import type { Group, Task, User, WeeklyMeeting } from '@/lib/types';
 
 
 export default function GroupDetailPage() {
@@ -36,25 +37,53 @@ export default function GroupDetailPage() {
   // In a real app, this would be from an auth context
   const currentUserId = 'user-1';
   
-  const [group, setGroup] = useState(() => getGroupById(id));
-  
-  if (!group) {
-    notFound();
-  }
-
+  const [group, setGroup] = useState<Group | null | undefined>(undefined);
+  const [members, setMembers] = useState<(User | undefined)[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [meetings, setMeetings] = useState<WeeklyMeeting[]>([]);
   const [isJoinDialogOpen, setJoinDialogOpen] = useState(false);
 
-  const members = group.members.map(id => getUserById(id)).filter(Boolean);
-  const tasks = getTasksByGroupId(group.id);
+  useEffect(() => {
+    async function fetchData() {
+      const groupData = await getGroupById(id);
+      if (!groupData) {
+        notFound();
+        return;
+      }
+      setGroup(groupData);
+      
+      const memberPromises = groupData.members.map(id => getUserById(id));
+      const membersData = await Promise.all(memberPromises);
+      setMembers(membersData.filter(Boolean));
+      
+      const tasksData = await getTasksByGroupId(groupData.id);
+      setTasks(tasksData);
+
+      const meetingsData = await getMeetingsByGroupId(groupData.id);
+      setMeetings(meetingsData);
+    }
+    fetchData();
+  }, [id]);
+
+  if (group === undefined) {
+    // Loading state
+    return <AppLayout><div>Loading...</div></AppLayout>;
+  }
+
+  if (!group) {
+    // Not found will be triggered by useEffect, but this is a safeguard
+    return null;
+  }
+
   const isAdmin = group.adminId === currentUserId;
   const isMember = group.members.includes(currentUserId);
 
-  const handleJoinGroup = () => {
+  const handleJoinGroup = async () => {
     // For this demo, we'll just add the user. 
-    // In a real app, you might want to handle which tasks they've committed to.
-    addUserToGroup(currentUserId, group.id);
+    await addUserToGroup(currentUserId, group.id);
     // Re-fetch group data to update membership status
-    setGroup(getGroupById(id)); 
+    const updatedGroupData = await getGroupById(id);
+    setGroup(updatedGroupData);
     setJoinDialogOpen(false);
   };
 
@@ -160,7 +189,7 @@ export default function GroupDetailPage() {
             </Card>
           </TabsContent>
           <TabsContent value="meetings">
-            <WeeklyMeetings groupId={group.id} />
+            <WeeklyMeetings groupId={group.id} meetings={meetings} />
           </TabsContent>
         </Tabs>
       </div>

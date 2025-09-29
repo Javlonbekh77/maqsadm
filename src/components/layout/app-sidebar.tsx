@@ -24,6 +24,8 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { getUserById } from '@/lib/data';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import type { User } from '@/lib/types';
 
 const currentUserId = 'user-1';
 
@@ -32,8 +34,16 @@ export default function AppSidebar() {
   const tHeader = useTranslations('header');
   const pathname = usePathname();
   const { state } = useSidebar();
-  const currentUser = getUserById(currentUserId);
+  const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
   
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await getUserById(currentUserId);
+      setCurrentUser(user);
+    }
+    fetchUser();
+  }, []);
+
   const navItems = [
     { href: '/dashboard', labelKey: 'dashboard', icon: LayoutDashboard },
     { href: '/groups', labelKey: 'groups', icon: Users },
