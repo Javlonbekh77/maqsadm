@@ -204,3 +204,25 @@ export const getUserTasks = (userId: string) => {
             }
         });
 };
+
+export const getGoalMates = (userId: string): User[] => {
+    const currentUser = getUserById(userId);
+    if (!currentUser) return [];
+
+    const groupIds = currentUser.groups;
+    const goalMatesMap = new Map<string, User>();
+
+    groupIds.forEach(groupId => {
+        const group = getGroupById(groupId);
+        group?.members.forEach(memberId => {
+            if (memberId !== userId) {
+                const user = getUserById(memberId);
+                if (user) {
+                    goalMatesMap.set(user.id, user);
+                }
+            }
+        });
+    });
+
+    return Array.from(goalMatesMap.values());
+};

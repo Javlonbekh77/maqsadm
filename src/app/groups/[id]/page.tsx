@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Coins, Crown, Plus, UserPlus } from 'lucide-react';
+import { Coins, Crown, UserPlus } from 'lucide-react';
 import CreateTaskDialog from '@/components/groups/create-task-dialog';
 import {
   Table,
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/table";
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
+import GoBackButton from '@/components/go-back-button';
 
 
 export default function GroupDetailPage() {
@@ -42,6 +43,7 @@ export default function GroupDetailPage() {
   return (
     <AppLayout>
       <div className="space-y-8">
+        <GoBackButton />
         <header className="relative w-full h-64 rounded-xl overflow-hidden">
           <Image
             src={group.imageUrl}

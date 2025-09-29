@@ -1,7 +1,8 @@
 
 {
     "actions": {
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "goBack": "Go Back"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -113,7 +114,8 @@
         "toast": {
             "title": "Profile Updated",
             "description": "Your goals and habits have been saved successfully."
-        }
+        },
+        "goalMates": "Goal Mates"
     },
     "languageSwitcher": {
         "label": "Language",

@@ -7,12 +7,14 @@ import { getUserById } from "@/lib/data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Coins, Edit, Upload, Briefcase, User as UserIcon } from "lucide-react";
+import { Coins, Upload, Briefcase } from "lucide-react";
 import ProfileForm from "@/components/profile/profile-form";
 import HabitTracker from '@/components/profile/habit-tracker';
 import type { User } from "@/lib/types";
 import { useTranslation } from "react-i18next";
 import { Separator } from '@/components/ui/separator';
+import GoBackButton from '@/components/go-back-button';
+import GoalMates from '@/components/profile/goal-mates';
 
 
 export default function ProfilePage() {
@@ -32,9 +34,10 @@ export default function ProfilePage() {
   return (
     <AppLayout>
       <div className="space-y-8">
+        <GoBackButton />
         <div>
           <h1 className="text-3xl font-bold font-headline">{isCurrentUser ? t('profile.title') : user.name}</h1>
-          <p className="text-muted-foreground">{t('profile.subtitle')}</p>
+          {!isCurrentUser && <p className="text-muted-foreground">{user.occupation}</p>}
         </div>
 
         <Card>
@@ -87,6 +90,8 @@ export default function ProfilePage() {
         </Card>
         
         <HabitTracker user={user} />
+
+        <GoalMates userId={user.id} />
 
       </div>
     </AppLayout>
