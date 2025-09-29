@@ -10,21 +10,32 @@ import TaskCompletionDialog from './task-completion-dialog';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import { completeUserTask } from '@/lib/data';
+import { useRouter } from '@/navigation';
 
-export default function TodoList({ initialTasks }: { initialTasks: UserTask[] }) {
+export default function TodoList({ initialTasks, userId }: { initialTasks: UserTask[], userId: string }) {
   const t = useTranslations('todoList');
   const [tasks, setTasks] = useState(initialTasks);
   const [selectedTask, setSelectedTask] = useState<UserTask | null>(null);
+  const router = useRouter();
 
   const handleCompleteClick = (task: UserTask) => {
     setSelectedTask(task);
   };
 
-  const handleConfirmCompletion = (taskId: string) => {
-    // In a real app, this would involve an API call to update the task status and user coins.
-    // For this demo, we'll just update the client-side state.
-    setTasks(tasks.map(t => t.id === taskId ? { ...t, isCompleted: true } : t));
+  const handleConfirmCompletion = () => {
+    if (!selectedTask) return;
+    
+    // This now updates the data source and should trigger re-renders where data is used.
+    completeUserTask(userId, selectedTask.id, selectedTask.coins);
+
+    // Update client-side state for immediate UI feedback
+    setTasks(tasks.map(t => t.id === selectedTask.id ? { ...t, isCompleted: true } : t));
     setSelectedTask(null);
+
+    // useRouter.refresh() is a soft refresh, it re-fetches server components
+    // This is good for ensuring data consistency across the app after a mutation
+    router.refresh();
   };
 
   const activeTasks = tasks.filter(t => !t.isCompleted);
@@ -98,7 +109,7 @@ export default function TodoList({ initialTasks }: { initialTasks: UserTask[] })
       {selectedTask && (
         <TaskCompletionDialog
           task={selectedTask}
-          onConfirm={() => handleConfirmCompletion(selectedTask.id)}
+          onConfirm={handleConfirmCompletion}
           onCancel={() => setSelectedTask(null)}
         />
       )}

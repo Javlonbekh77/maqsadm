@@ -1,7 +1,7 @@
 
 import type { User, Group, Task, TaskHistory, WeeklyMeeting } from './types';
 import { PlaceHolderImages } from './placeholder-images';
-import { subDays, format } from 'date-fns';
+import { subDays, format, isSameDay } from 'date-fns';
 import { db } from './firebase';
 import { collection, getDocs, writeBatch, query, where } from "firebase/firestore";
 
@@ -268,6 +268,29 @@ export const addUserToGroup = (userId: string, groupId: string) => {
     });
 };
 
+export const completeUserTask = (userId: string, taskId: string, coins: number) => {
+  const today = format(new Date(), 'yyyy-MM-dd');
+  
+  users = users.map(user => {
+    if (user.id === userId) {
+      // Check if task was already completed today to prevent double-counting
+      const alreadyCompleted = user.taskHistory.some(
+        h => h.taskId === taskId && h.date === today
+      );
+      
+      if (!alreadyCompleted) {
+        return {
+          ...user,
+          coins: user.coins + coins,
+          taskHistory: [...user.taskHistory, { taskId, date: today }],
+        };
+      }
+    }
+    return user;
+  });
+};
+
+
 // This function seeds the database with initial data if it's empty.
 // In a real app, this would be handled by a separate script or admin interface.
 // It is currently not used to avoid Firestore connection errors.
@@ -297,5 +320,3 @@ async function seedDatabase() {
         console.log("Database already contains data. Skipping seed.");
     }
 }
-
-    

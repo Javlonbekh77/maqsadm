@@ -5,6 +5,7 @@ import AppLayout from "@/components/layout/app-layout";
 import TodoList from "@/components/dashboard/todo-list";
 import type { User, UserTask } from "@/lib/types";
 import { useTranslations } from "next-intl";
+import HabitTracker from "@/components/profile/habit-tracker";
 
 interface DashboardClientProps {
   user: User;
@@ -24,7 +25,10 @@ export default function DashboardClient({ user, initialTasks }: DashboardClientP
 
         <div className="grid gap-8 items-start">
           <div>
-            <TodoList initialTasks={initialTasks} />
+            <TodoList initialTasks={initialTasks} userId={user.id} />
+          </div>
+          <div>
+            <HabitTracker user={user} />
           </div>
         </div>
       </div>
