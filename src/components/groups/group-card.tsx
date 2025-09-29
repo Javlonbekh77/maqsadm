@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 
 export default function GroupCard({ group }: { group: Group }) {
   const { t } = useTranslation();
+  // Note: In a full Firestore implementation, this would also be an async call
   const members = group.members.map(id => getUserById(id)).filter(Boolean);
 
   return (
@@ -47,6 +48,7 @@ export default function GroupCard({ group }: { group: Group }) {
           <span className="text-xs font-medium text-muted-foreground">{t('groupCard.members', { count: group.members.length })}</span>
         </div>
         <Button variant="outline" size="sm" asChild>
+          {/* We now use the original ID for the link, not the Firebase ID */}
           <Link href={`/groups/${group.id}`}>
             {t('groupCard.view')}
             <ArrowRight className="ml-2 h-4 w-4" />

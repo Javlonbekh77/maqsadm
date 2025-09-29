@@ -24,6 +24,7 @@ export type User = {
 };
 
 export type Group = {
+  firebaseId?: string; // Firestore document ID
   id: string;
   name: string;
   description: string;

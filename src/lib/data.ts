@@ -1,6 +1,8 @@
 import type { User, Group, Task, TaskHistory } from './types';
 import { PlaceHolderImages } from './placeholder-images';
 import { subDays, format } from 'date-fns';
+import { db } from './firebase';
+import { collection, getDocs, writeBatch, query, where } from "firebase/firestore";
 
 const getUserAvatar = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
 const getGroupImage = (id: string) => PlaceHolderImages.find((img) => img.id === id)?.imageUrl || '';
@@ -22,8 +24,9 @@ const generateTaskHistory = (tasks: {taskId: string, frequency: number}[]): Task
     return history;
 }
 
+// --- STATIC MOCK DATA (Used for seeding Firestore) ---
 
-export let users: User[] = [
+let initialUsers: User[] = [
   {
     id: 'user-1',
     fullName: 'Sarah Johnson',
@@ -70,7 +73,7 @@ export let users: User[] = [
   },
 ];
 
-export let groups: Group[] = [
+let initialGroups: Group[] = [
   {
     id: 'group-1',
     name: 'Morning Runners',
@@ -109,7 +112,7 @@ export let groups: Group[] = [
   },
 ];
 
-export const tasks: Task[] = [
+let initialTasks: Task[] = [
   {
     id: 'task-1',
     groupId: 'group-1',
@@ -168,8 +171,57 @@ export const tasks: Task[] = [
   }
 ];
 
-// Helper functions to get data
-export const getGroups = () => groups;
+// --- DATA SEEDING (ONE-TIME) ---
+
+// This function seeds the database with initial data if it's empty.
+// In a real app, this would be handled by a separate script or admin interface.
+async function seedDatabase() {
+    const groupsCollection = collection(db, "groups");
+    const groupsSnapshot = await getDocs(groupsCollection);
+    if (groupsSnapshot.empty) {
+        console.log("Database is empty. Seeding initial data...");
+        const batch = writeBatch(db);
+        
+        initialGroups.forEach(group => {
+            const docRef = collection(db, "groups").doc();
+            batch.set(docRef, group);
+        });
+        initialTasks.forEach(task => {
+            const docRef = collection(db, "tasks").doc();
+            batch.set(docRef, task);
+        });
+        initialUsers.forEach(user => {
+            const docRef = collection(db, "users").doc();
+            batch.set(docRef, user);
+        });
+
+        await batch.commit();
+        console.log("Database seeded successfully!");
+    } else {
+        console.log("Database already contains data. Skipping seed.");
+    }
+}
+
+
+// --- FIRESTORE DATA FUNCTIONS ---
+
+export const getGroups = async (): Promise<Group[]> => {
+  await seedDatabase(); // Ensure DB is seeded before fetching
+  const groupsCollection = collection(db, 'groups');
+  const groupSnapshot = await getDocs(groupsCollection);
+  const groupList = groupSnapshot.docs.map(doc => ({
+    firebaseId: doc.id,
+    ...doc.data()
+  } as Group));
+  return groupList;
+};
+
+// --- STATIC DATA FUNCTIONS (to be replaced) ---
+
+let users: User[] = initialUsers;
+let groups: Group[] = initialGroups;
+let tasks: Task[] = initialTasks;
+
 export const getGroupById = (id: string) => groups.find((g) => g.id === id);
 export const getTasksByGroupId = (groupId: string) => tasks.filter((t) => t.groupId === groupId);
 export const getUsers = () => users;
